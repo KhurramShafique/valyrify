@@ -1,13 +1,17 @@
 # VALYRIFY Vision Demo — Site
 
-Static site, no build step required. Two pages so far:
+Static site, no build step required. Three pages so far:
 
 - `index.html` — the landing page / vision overview (Prototype 1)
 - `app.html` — the interactive product demo: Dashboard, Properties, ROI Calculator, Admin (Prototype 2)
+- `roadmap.html` — dedicated Future Roadmap page, with every upcoming feature grouped
+  by quarter and stamped "Coming Soon"
 
 They're linked together: "Enter the Demo" and each module row on the landing
 page jump straight into the matching tab in `app.html` (e.g. `app.html#roi`).
-The app's logo and "← Overview" link go back to `index.html`.
+The app's logo and "← Overview" link go back to `index.html`. Every "Coming
+Soon" stamp across the site (hover for a tooltip on the landing page, or read
+inline in the app) links through to `roadmap.html` for the full picture.
 
 All data is sample data held in memory in the browser — it resets on page
 refresh. There is no backend, database, or real AI call behind any of it,

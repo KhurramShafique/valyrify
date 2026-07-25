@@ -132,7 +132,7 @@
   /* Module index */
   .modrow{
     display:grid;
-    grid-template-columns:100px 1fr 150px 24px;
+    grid-template-columns:100px 1fr 160px 24px;
     gap:24px;
     align-items:center;
     padding:22px 4px;
@@ -146,12 +146,27 @@
   .modnum{font-family:'IBM Plex Mono',monospace; color:var(--brass-light); font-size:0.85rem;}
   .modname{font-family:'Fraunces', serif; font-size:1.2rem; font-weight:500;}
   .moddesc{color:var(--cream-dim); font-size:0.92rem; margin-top:6px; line-height:1.5;}
-  .modfuture{color:var(--rust); font-size:0.8rem; margin-top:8px; font-family:'IBM Plex Mono',monospace; opacity:0.85;}
-  .modfuture::before{content:"→ next: "; opacity:0.7;}
   .badge{
     font-family:'IBM Plex Mono',monospace; font-size:0.68rem; letter-spacing:0.1em; text-transform:uppercase;
     padding:6px 10px; border-radius:2px; text-align:center; border:1.5px solid var(--teal); color:var(--teal);
     justify-self:start; transform:rotate(-3deg);
+  }
+  .badge-stack{display:flex; flex-direction:column; gap:8px; justify-self:start;}
+  .badge-soon{
+    font-family:'IBM Plex Mono',monospace; font-size:0.62rem; letter-spacing:0.08em; text-transform:uppercase;
+    padding:5px 9px; border-radius:2px; text-align:center; border:1.5px solid var(--rust); color:var(--rust);
+    transform:rotate(3deg); position:relative; cursor:help; white-space:nowrap;
+  }
+  .badge-soon[data-tip]:hover::after{
+    content:attr(data-tip);
+    position:absolute; bottom:calc(100% + 10px); left:50%; transform:translateX(-50%) rotate(-3deg);
+    background:var(--paper); color:var(--ink); font-family:'Inter',sans-serif; text-transform:none; letter-spacing:normal;
+    font-size:0.78rem; font-weight:500; padding:9px 13px; border-radius:4px; width:200px; text-align:left;
+    box-shadow:0 8px 24px rgba(0,0,0,0.35); z-index:20; pointer-events:none;
+  }
+  .badge-soon[data-tip]:hover::before{
+    content:""; position:absolute; bottom:calc(100% + 4px); left:50%; transform:translateX(-50%) rotate(-3deg);
+    border:6px solid transparent; border-top-color:var(--paper); z-index:20; pointer-events:none;
   }
   .arrow{color:var(--cream-dim); transition:all .2s; font-size:1.1rem;}
 
@@ -205,7 +220,7 @@
     .hero-grid{grid-template-columns:1fr;}
     .stamp{justify-self:start; margin-top:28px;}
     .modrow{grid-template-columns:44px 1fr; row-gap:8px;}
-    .modrow .badge{grid-column:2; justify-self:start; margin-top:4px;}
+    .modrow .badge-stack{grid-column:2; justify-self:start; flex-direction:row; margin-top:4px;}
     .modrow .arrow{display:none;}
   }
   @media (prefers-reduced-motion: reduce){
@@ -222,7 +237,7 @@
     <div class="navlinks">
       <a href="#modules">Modules</a>
       <a href="#journey">Journey</a>
-      <a href="#roadmap">Roadmap</a>
+      <a href="roadmap.html">Roadmap</a>
     </div>
     <a href="app.html" class="navtag" style="cursor:pointer;">Launch App →</a>
   </nav>
@@ -237,7 +252,7 @@
         <p class="sub">VALYRIFY is an AI-native platform for valuation, rental pricing, and investment forecasting — built for the moment investors, developers, and asset managers need certainty, not guesswork.</p>
         <div class="cta-row">
           <a href="app.html#dashboard" class="btn btn-primary">Enter the Demo →</a>
-          <a href="#roadmap" class="btn btn-outline">View the Roadmap</a>
+          <a href="roadmap.html" class="btn btn-outline">View the Roadmap</a>
         </div>
       </div>
       <div class="stamp">LIVE PREVIEW<small>Sample data · v1</small></div>
@@ -277,10 +292,13 @@
     <div class="section-head">
       <div class="eyebrow" style="color:var(--brass);">Future Roadmap</div>
       <h2 style="color:var(--paper);">Where VALYRIFY is headed</h2>
-      <p>Scroll to see what ships after this vision demo, quarter by quarter.</p>
+      <p>Eight features ship over the four quarters after this vision demo — from live AI valuation to enterprise reporting.</p>
     </div>
     <div class="roadmap-scroll">
       <div class="roadmap-track" id="roadmapTrack"></div>
+    </div>
+    <div style="margin-top:36px;">
+      <a href="roadmap.html" class="btn btn-primary">View the Full Roadmap →</a>
     </div>
   </div>
 </section>
@@ -294,7 +312,7 @@
     <div class="foot-right">
       <a href="#modules">Modules</a>
       <a href="#journey">Journey</a>
-      <a href="#roadmap">Roadmap</a>
+      <a href="roadmap.html">Roadmap</a>
       <a href="app.html">Launch App</a>
       <span class="prototag">Prototypes 1–2 Live</span>
     </div>
@@ -327,14 +345,14 @@
 
   // Module index data (from proposal §4)
   const modules = [
-    {n:'01', name:'User Management', desc:'Login/logout with role-based access for Admin and Viewer accounts.', future:'multi-factor auth, SSO', link:'app.html'},
+    {n:'01', name:'User Management', desc:'Login/logout with role-based access for Admin and Viewer accounts.', future:'Multi-factor auth, SSO integration', link:'app.html'},
     {n:'02', name:'Dashboard', desc:'Live charts for occupancy, price trends, and yield metrics on sample data.', future:'AI insights panel, predictive alerts', link:'app.html#dashboard'},
-    {n:'03', name:'Property Data Input', desc:'Add, edit, and delete properties with full form validation.', future:'bulk CSV/Excel import, data feed integrations', link:'app.html#admin'},
-    {n:'04', name:'AI-Based Valuation', desc:'Input form with a mocked valuation output, driven by smart logic.', future:'live AI API integration', link:'app.html#properties'},
-    {n:'05', name:'Rental Pricing Intelligence', desc:'Recommended rent compared against a static market-average dataset.', future:'predictive trend forecasting, heatmaps', link:'app.html#properties'},
-    {n:'06', name:'ROI &amp; Investment Calculator', desc:'Fully functional — enter numbers, get ROI%, cash flow, and payback period.', future:'multi-property scenario comparison', link:'app.html#roi'},
-    {n:'07', name:'Admin Panel', desc:'Full CRUD for properties, user management, and dashboard controls.', future:'audit logs, advanced reporting', link:'app.html#admin'},
-    {n:'08', name:'Future Roadmap', desc:'A dedicated page with an interactive timeline of upcoming features.', future:null, link:'#roadmap'},
+    {n:'03', name:'Property Data Input', desc:'Add, edit, and delete properties with full form validation.', future:'Bulk CSV/Excel import, third-party data feeds', link:'app.html#admin'},
+    {n:'04', name:'AI-Based Valuation', desc:'Input form with a mocked valuation output, driven by smart logic.', future:'Live AI API integration (client-provided key)', link:'app.html#properties'},
+    {n:'05', name:'Rental Pricing Intelligence', desc:'Recommended rent compared against a static market-average dataset.', future:'Predictive trend forecasting, heatmaps', link:'app.html#properties'},
+    {n:'06', name:'ROI &amp; Investment Calculator', desc:'Fully functional — enter numbers, get ROI%, cash flow, and payback period.', future:'Multi-property scenario comparison', link:'app.html#roi'},
+    {n:'07', name:'Admin Panel', desc:'Full CRUD for properties, user management, and dashboard controls.', future:'Audit logs, advanced reporting', link:'app.html#admin'},
+    {n:'08', name:'Future Roadmap', desc:'A dedicated page with an interactive timeline of upcoming features.', future:null, link:'roadmap.html'},
   ];
   const moduleList = document.getElementById('moduleList');
   moduleList.innerHTML = modules.map(m => `
@@ -343,9 +361,11 @@
       <div>
         <div class="modname">${m.name}</div>
         <div class="moddesc">${m.desc}</div>
-        ${m.future ? `<div class="modfuture">${m.future}</div>` : ''}
       </div>
-      <div class="badge">Live</div>
+      <div class="badge-stack">
+        <div class="badge">Live</div>
+        ${m.future ? `<div class="badge-soon" data-tip="${m.future.replace(/"/g,'&quot;')}">Coming Soon</div>` : ''}
+      </div>
       <div class="arrow">→</div>
     </div>
   `).join('');

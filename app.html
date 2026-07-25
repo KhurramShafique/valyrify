@@ -98,6 +98,19 @@
     font-family:'IBM Plex Mono',monospace; font-size:.68rem; text-transform:uppercase; letter-spacing:.08em;
     padding:5px 10px; border-radius:2px; transform:rotate(-2deg); margin-bottom:18px;
   }
+  .stamp-soon{
+    display:inline-flex; align-items:center; gap:6px; border:1.5px solid var(--rust); color:var(--rust);
+    font-family:'IBM Plex Mono',monospace; font-size:.68rem; text-transform:uppercase; letter-spacing:.08em;
+    padding:5px 10px; border-radius:2px; transform:rotate(2deg);
+  }
+  .soon-note{
+    display:inline-flex; align-items:center; gap:10px; background:rgba(180,80,47,0.08); border:1px solid rgba(180,80,47,0.25);
+    border-radius:4px; padding:10px 14px; margin-top:18px; font-size:.85rem; color:var(--cream-dim);
+  }
+  .soon-note-light{
+    display:flex; align-items:center; gap:10px; background:rgba(180,80,47,0.07); border:1px solid rgba(180,80,47,0.22);
+    border-radius:4px; padding:10px 14px; margin-top:16px; font-size:.83rem; color:var(--ink-dim);
+  }
   .detail-grid{display:grid; grid-template-columns:1fr 1fr; gap:14px; margin-bottom:22px;}
   .detail-item{background:var(--paper-dim); padding:12px 14px; border-radius:3px;}
   .detail-item .l{font-family:'IBM Plex Mono',monospace; font-size:.66rem; text-transform:uppercase; color:var(--ink-dim); letter-spacing:.05em;}
@@ -184,6 +197,7 @@
     </div>
     <div class="nav-right">
       <a href="index.html" class="tab" style="padding:9px 10px;">← Overview</a>
+      <a href="roadmap.html" class="tab" style="padding:9px 10px;">Roadmap</a>
       <span class="role-badge" id="roleBadge">Not signed in</span>
       <button class="signin-btn" id="signinBtn">Sign In</button>
     </div>
@@ -197,6 +211,10 @@
       <div class="eyebrow">Live · Sample Data</div>
       <h1>Portfolio overview</h1>
       <p>Key metrics across every tracked property, recalculated instantly as the portfolio changes.</p>
+      <div class="soon-note">
+        <span class="stamp-soon">Coming Soon</span>
+        <span>AI insights panel with predictive alerts, and multi-year historical trend analysis.</span>
+      </div>
     </div>
     <div class="kpi-grid" id="kpiGrid"></div>
     <div class="chart-grid">
@@ -220,6 +238,10 @@
       <div class="eyebrow">Live · Sample Data</div>
       <h1>Property list</h1>
       <p>Search, filter and sort the tracked portfolio. Click any row for valuation detail.</p>
+      <div class="soon-note">
+        <span class="stamp-soon">Coming Soon</span>
+        <span>Bulk CSV/Excel import and live third-party data feeds, replacing manual entry.</span>
+      </div>
     </div>
     <div class="filter-row">
       <input type="text" id="searchInput" placeholder="Search by name or location…">
@@ -255,6 +277,10 @@
       <div class="eyebrow">Live · Fully Functional</div>
       <h1>ROI &amp; investment calculator</h1>
       <p>Adjust any figure — results recalculate immediately.</p>
+      <div class="soon-note">
+        <span class="stamp-soon">Coming Soon</span>
+        <span>Multi-property scenario comparison — run this calculator across several properties side-by-side.</span>
+      </div>
     </div>
     <div class="roi-grid">
       <div class="roi-form">
@@ -546,6 +572,10 @@ function openPropertyModal(id){
       <div class="rent-bar-row"><span style="width:70px;">This unit</span><div class="rent-bar-track"><div class="rent-bar-fill" style="width:${yourPct}%; background:var(--teal);"></div></div><span>${fmtAED(p.rent)}</span></div>
       <div class="rent-bar-row"><span style="width:70px;">Market avg</span><div class="rent-bar-track"><div class="rent-bar-fill" style="width:${marketPct}%; background:var(--brass);"></div></div><span>${fmtAED(marketRent)}</span></div>
     </div>
+    <div class="soon-note-light">
+      <span class="stamp-soon">Coming Soon</span>
+      <span>Live AI valuation via connected model, plus third-party comparables from DLD/REIDIN. See the <a href="roadmap.html" style="color:var(--rust); text-decoration:underline;">full roadmap</a>.</span>
+    </div>
   `;
   document.getElementById('propModalOverlay').classList.add('show');
 }
@@ -603,6 +633,10 @@ function renderAdmin(){
       <div class="eyebrow">Live · Full CRUD</div>
       <h1>Admin panel</h1>
       <p>Add, edit, or remove properties. Changes reflect instantly in the Dashboard and Property list.</p>
+      <div class="soon-note">
+        <span class="stamp-soon">Coming Soon</span>
+        <span>Audit logs, advanced reporting, and subscription/billing management.</span>
+      </div>
     </div>
     <div class="admin-layout">
       <div class="admin-form-card">
