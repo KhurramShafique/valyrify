@@ -1,0 +1,721 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>VALYRIFY — Vision Demo App</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,500;0,9..144,600;1,9..144,400&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.4/chart.umd.min.js"></script>
+<style>
+  :root{
+    --bg:#102A1E; --bg-deep:#0B2017;
+    --paper:#F3EEDF; --paper-dim:#E7DFC6;
+    --brass:#B8863E; --brass-light:#D9AF6C;
+    --teal:#2F7A66; --teal-dim:#8FBBAE;
+    --rust:#B4502F; --rust-dim:#D99676;
+    --ink:#1B2A22; --ink-dim:#5C6B5F;
+    --cream:#F3EEDF; --cream-dim:#AFBBA9;
+    --rule: rgba(184,134,62,0.35);
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  body{background:var(--bg); color:var(--cream); font-family:'Inter',sans-serif; line-height:1.5; -webkit-font-smoothing:antialiased;}
+  .mono{font-family:'IBM Plex Mono',monospace;}
+  .serif{font-family:'Fraunces',serif;}
+  a{color:inherit;}
+  button{font-family:inherit; cursor:pointer;}
+  input,select{font-family:inherit;}
+  .wrap{max-width:1220px; margin:0 auto; padding:0 32px;}
+
+  header{position:sticky; top:0; z-index:50; background:rgba(16,42,30,0.96); backdrop-filter:blur(6px); border-bottom:1px solid var(--rule);}
+  nav.wrap{display:flex; align-items:center; justify-content:space-between; height:64px; gap:20px;}
+  .logo{font-family:'Fraunces',serif; font-weight:600; font-size:1.1rem; letter-spacing:.04em; flex-shrink:0;}
+  .logo span{color:var(--brass-light);}
+  .tabs{display:flex; gap:4px; flex:1; overflow-x:auto;}
+  .tab{font-family:'IBM Plex Mono',monospace; font-size:.76rem; letter-spacing:.05em; text-transform:uppercase; color:var(--cream-dim); background:none; border:none; padding:9px 14px; border-radius:3px; white-space:nowrap; transition:all .2s;}
+  .tab:hover{color:var(--cream);}
+  .tab.active{color:var(--bg-deep); background:var(--brass-light); font-weight:600;}
+  .nav-right{display:flex; align-items:center; gap:12px; flex-shrink:0;}
+  .role-badge{font-family:'IBM Plex Mono',monospace; font-size:.7rem; letter-spacing:.06em; text-transform:uppercase; padding:6px 11px; border-radius:2px; border:1px solid var(--rule); color:var(--cream-dim);}
+  .role-badge.admin{border-color:var(--teal); color:var(--teal-dim);}
+  .signin-btn{font-family:'IBM Plex Mono',monospace; font-size:.76rem; text-transform:uppercase; letter-spacing:.05em; background:var(--brass); color:var(--bg-deep); border:none; padding:9px 16px; border-radius:2px; font-weight:600;}
+  .signin-btn:hover{background:var(--brass-light);}
+
+  main{max-width:1220px; margin:0 auto; padding:40px 32px 100px;}
+  .view{display:none;}
+  .view.active{display:block; animation:fadein .35s ease;}
+  @keyframes fadein{from{opacity:0; transform:translateY(6px);} to{opacity:1; transform:translateY(0);}}
+
+  .page-head{margin-bottom:34px;}
+  .eyebrow{font-family:'IBM Plex Mono',monospace; font-size:.75rem; letter-spacing:.14em; color:var(--brass-light); text-transform:uppercase; margin-bottom:10px; display:flex; align-items:center; gap:10px;}
+  .eyebrow::before{content:""; width:22px; height:1px; background:var(--brass-light);}
+  .page-head h1{font-family:'Fraunces',serif; font-weight:500; font-size:clamp(1.7rem,3vw,2.3rem);}
+  .page-head p{color:var(--cream-dim); margin-top:8px; max-width:60ch;}
+
+  .kpi-grid{display:grid; grid-template-columns:repeat(4,1fr); gap:16px; margin-bottom:36px;}
+  .kpi-card{background:var(--paper); color:var(--ink); border-radius:4px; padding:22px; border-left:3px solid var(--teal);}
+  .kpi-label{font-family:'IBM Plex Mono',monospace; font-size:.7rem; letter-spacing:.08em; text-transform:uppercase; color:var(--ink-dim);}
+  .kpi-value{font-family:'Fraunces',serif; font-size:1.9rem; font-weight:500; margin-top:8px;}
+  .kpi-sub{font-family:'IBM Plex Mono',monospace; font-size:.72rem; color:var(--teal); margin-top:6px;}
+
+  .chart-grid{display:grid; grid-template-columns:1.4fr 1fr; gap:16px;}
+  .chart-grid .full{grid-column:1 / -1;}
+  .chart-card{background:var(--paper); color:var(--ink); border-radius:4px; padding:22px;}
+  .chart-card h3{font-family:'Fraunces',serif; font-weight:500; font-size:1.05rem; margin-bottom:16px;}
+  .chart-card .canvas-wrap{position:relative; height:240px;}
+
+  .filter-row{display:flex; gap:12px; flex-wrap:wrap; margin-bottom:22px; align-items:center;}
+  .filter-row input[type=text], .filter-row select{
+    background:var(--paper); color:var(--ink); border:1px solid var(--rule); border-radius:3px; padding:10px 12px; font-size:.88rem;
+  }
+  .filter-row input[type=text]{flex:1; min-width:180px;}
+  table{width:100%; border-collapse:collapse; background:var(--paper); color:var(--ink); border-radius:4px; overflow:hidden;}
+  thead th{
+    text-align:left; font-family:'IBM Plex Mono',monospace; font-size:.7rem; letter-spacing:.06em; text-transform:uppercase;
+    color:var(--ink-dim); padding:14px 16px; border-bottom:1px solid rgba(27,42,34,0.15); cursor:pointer; user-select:none;
+  }
+  thead th:hover{color:var(--teal);}
+  tbody td{padding:14px 16px; border-bottom:1px solid rgba(27,42,34,0.08); font-size:.9rem;}
+  tbody tr{cursor:pointer; transition:background .15s;}
+  tbody tr:hover{background:var(--paper-dim);}
+  tbody tr:last-child td{border-bottom:none;}
+  .pname{font-family:'Fraunces',serif; font-weight:500; font-size:1rem;}
+  .ploc{color:var(--ink-dim); font-size:.8rem; margin-top:2px;}
+  .status-pill{font-family:'IBM Plex Mono',monospace; font-size:.68rem; text-transform:uppercase; padding:4px 9px; border-radius:10px; letter-spacing:.04em;}
+  .status-occupied{background:rgba(47,122,102,0.14); color:var(--teal);}
+  .status-vacant{background:rgba(180,80,47,0.14); color:var(--rust);}
+  .yield-val{font-family:'IBM Plex Mono',monospace; font-weight:600; color:var(--teal);}
+
+  .modal-overlay{position:fixed; inset:0; background:rgba(11,32,23,0.72); display:none; align-items:center; justify-content:center; z-index:200; padding:24px;}
+  .modal-overlay.show{display:flex;}
+  .modal{background:var(--paper); color:var(--ink); width:100%; max-width:560px; border-radius:6px; padding:32px; max-height:88vh; overflow-y:auto; position:relative;}
+  .modal-close{position:absolute; top:18px; right:18px; background:none; border:none; font-size:1.3rem; color:var(--ink-dim); line-height:1;}
+  .modal h2{font-family:'Fraunces',serif; font-weight:500; font-size:1.4rem; margin-bottom:4px;}
+  .modal .ploc{margin-bottom:20px;}
+  .stamp-inline{
+    display:inline-flex; align-items:center; gap:6px; border:1.5px solid var(--teal); color:var(--teal);
+    font-family:'IBM Plex Mono',monospace; font-size:.68rem; text-transform:uppercase; letter-spacing:.08em;
+    padding:5px 10px; border-radius:2px; transform:rotate(-2deg); margin-bottom:18px;
+  }
+  .detail-grid{display:grid; grid-template-columns:1fr 1fr; gap:14px; margin-bottom:22px;}
+  .detail-item{background:var(--paper-dim); padding:12px 14px; border-radius:3px;}
+  .detail-item .l{font-family:'IBM Plex Mono',monospace; font-size:.66rem; text-transform:uppercase; color:var(--ink-dim); letter-spacing:.05em;}
+  .detail-item .v{font-family:'Fraunces',serif; font-size:1.15rem; margin-top:4px;}
+  .valuation-box{background:var(--bg); color:var(--cream); border-radius:4px; padding:18px; margin-top:8px;}
+  .valuation-box .l{font-family:'IBM Plex Mono',monospace; font-size:.7rem; text-transform:uppercase; color:var(--brass-light); letter-spacing:.06em;}
+  .valuation-box .v{font-family:'Fraunces',serif; font-size:1.7rem; margin-top:6px;}
+  .valuation-box .note{color:var(--cream-dim); font-size:.78rem; margin-top:8px;}
+  .rent-compare{margin-top:16px;}
+  .rent-bar-row{display:flex; align-items:center; gap:10px; margin-top:8px; font-size:.8rem;}
+  .rent-bar-track{flex:1; height:8px; background:var(--paper-dim); border-radius:4px; overflow:hidden;}
+  .rent-bar-fill{height:100%; border-radius:4px;}
+
+  .roi-grid{display:grid; grid-template-columns:1fr 1fr; gap:24px;}
+  .roi-form{background:var(--paper); color:var(--ink); border-radius:6px; padding:28px;}
+  .field{margin-bottom:18px;}
+  .field label{display:block; font-family:'IBM Plex Mono',monospace; font-size:.72rem; text-transform:uppercase; letter-spacing:.05em; color:var(--ink-dim); margin-bottom:7px;}
+  .field .input-wrap{position:relative;}
+  .field input{width:100%; padding:11px 14px; border:1px solid rgba(27,42,34,0.2); border-radius:3px; font-size:.95rem; background:#fff; color:var(--ink); font-family:'IBM Plex Mono',monospace;}
+  .field input:focus{outline:none; border-color:var(--teal);}
+  .field .suffix{position:absolute; right:12px; top:50%; transform:translateY(-50%); color:var(--ink-dim); font-size:.8rem; font-family:'IBM Plex Mono',monospace;}
+  .field-row{display:grid; grid-template-columns:1fr 1fr; gap:14px;}
+
+  .roi-results{display:flex; flex-direction:column; gap:14px;}
+  .result-hero{background:var(--paper); color:var(--ink); border-radius:6px; padding:26px; border-left:4px solid var(--teal);}
+  .result-hero .l{font-family:'IBM Plex Mono',monospace; font-size:.72rem; text-transform:uppercase; color:var(--ink-dim); letter-spacing:.06em;}
+  .result-hero .v{font-family:'Fraunces',serif; font-size:2.6rem; margin-top:6px; color:var(--teal);}
+  .result-mini-grid{display:grid; grid-template-columns:1fr 1fr; gap:14px;}
+  .result-mini{background:var(--paper); color:var(--ink); border-radius:5px; padding:16px;}
+  .result-mini .l{font-family:'IBM Plex Mono',monospace; font-size:.68rem; text-transform:uppercase; color:var(--ink-dim); letter-spacing:.05em;}
+  .result-mini .v{font-family:'Fraunces',serif; font-size:1.3rem; margin-top:5px;}
+  .result-mini .v.neg{color:var(--rust);}
+
+  .admin-layout{display:grid; grid-template-columns:340px 1fr; gap:20px; align-items:start;}
+  .admin-form-card{background:var(--paper); color:var(--ink); border-radius:6px; padding:24px; position:sticky; top:88px;}
+  .admin-form-card h3{font-family:'Fraunces',serif; font-weight:500; margin-bottom:16px; font-size:1.1rem;}
+  .field select{width:100%; padding:11px 14px; border:1px solid rgba(27,42,34,0.2); border-radius:3px; font-size:.9rem; background:#fff; color:var(--ink);}
+  .form-actions{display:flex; gap:10px; margin-top:6px;}
+  .btn{font-family:'IBM Plex Mono',monospace; font-size:.78rem; letter-spacing:.05em; text-transform:uppercase; padding:11px 18px; border-radius:3px; border:1px solid transparent; transition:all .2s;}
+  .btn-primary{background:var(--teal); color:#fff; font-weight:600;}
+  .btn-primary:hover{background:#256153;}
+  .btn-ghost{background:none; border-color:rgba(27,42,34,0.2); color:var(--ink);}
+  .btn-ghost:hover{border-color:var(--ink);}
+  .admin-table-wrap table td.actions{display:flex; gap:8px;}
+  .icon-btn{background:none; border:1px solid rgba(27,42,34,0.15); border-radius:3px; padding:6px 10px; font-size:.78rem; color:var(--ink);}
+  .icon-btn:hover{border-color:var(--teal); color:var(--teal);}
+  .icon-btn.danger:hover{border-color:var(--rust); color:var(--rust);}
+
+  .denied-card{background:var(--paper); color:var(--ink); border-radius:6px; padding:48px; text-align:center; max-width:480px; margin:60px auto;}
+  .denied-stamp{display:inline-block; border:2px solid var(--rust); color:var(--rust); font-family:'IBM Plex Mono',monospace; font-size:.85rem; text-transform:uppercase; letter-spacing:.1em; padding:12px 20px; transform:rotate(-6deg); border-radius:3px; margin-bottom:20px;}
+  .denied-card p{color:var(--ink-dim); margin-bottom:20px;}
+
+  .login-card{max-width:400px;}
+  .role-options{display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-top:20px;}
+  .role-opt{border:1.5px solid rgba(27,42,34,0.2); border-radius:5px; padding:18px 14px; text-align:center; background:#fff;}
+  .role-opt:hover{border-color:var(--teal);}
+  .role-opt .ic{font-family:'Fraunces',serif; font-size:1.3rem; margin-bottom:6px;}
+  .role-opt .d{font-size:.76rem; color:var(--ink-dim);}
+
+  #toast{position:fixed; bottom:28px; left:50%; transform:translateX(-50%) translateY(20px); background:var(--paper); color:var(--ink); font-family:'IBM Plex Mono',monospace; font-size:.82rem; padding:14px 22px; border-radius:3px; border-left:4px solid var(--teal); opacity:0; pointer-events:none; transition:all .3s ease; z-index:300; max-width:90vw; text-align:center; box-shadow:0 10px 30px rgba(0,0,0,.3);}
+  #toast.show{opacity:1; transform:translateX(-50%) translateY(0);}
+
+  @media (max-width:900px){
+    .kpi-grid{grid-template-columns:1fr 1fr;}
+    .chart-grid{grid-template-columns:1fr;}
+    .roi-grid{grid-template-columns:1fr;}
+    .admin-layout{grid-template-columns:1fr;}
+    .admin-form-card{position:static;}
+    .detail-grid{grid-template-columns:1fr;}
+  }
+  @media (max-width:560px){ .kpi-grid{grid-template-columns:1fr;} }
+</style>
+</head>
+<body>
+
+<header>
+  <nav class="wrap">
+    <a href="index.html" class="logo" style="text-decoration:none;">VALY<span>RIFY</span></a>
+    <div class="tabs" id="tabs">
+      <button class="tab active" data-view="dashboard">Dashboard</button>
+      <button class="tab" data-view="properties">Properties</button>
+      <button class="tab" data-view="roi">ROI Calculator</button>
+      <button class="tab" data-view="admin">Admin</button>
+    </div>
+    <div class="nav-right">
+      <a href="index.html" class="tab" style="padding:9px 10px;">← Overview</a>
+      <span class="role-badge" id="roleBadge">Not signed in</span>
+      <button class="signin-btn" id="signinBtn">Sign In</button>
+    </div>
+  </nav>
+</header>
+
+<main>
+
+  <section class="view active" id="view-dashboard">
+    <div class="page-head">
+      <div class="eyebrow">Live · Sample Data</div>
+      <h1>Portfolio overview</h1>
+      <p>Key metrics across every tracked property, recalculated instantly as the portfolio changes.</p>
+    </div>
+    <div class="kpi-grid" id="kpiGrid"></div>
+    <div class="chart-grid">
+      <div class="chart-card">
+        <h3>Market Price Index — last 8 quarters</h3>
+        <div class="canvas-wrap"><canvas id="chartTrend"></canvas></div>
+      </div>
+      <div class="chart-card">
+        <h3>Occupancy split</h3>
+        <div class="canvas-wrap"><canvas id="chartOccupancy"></canvas></div>
+      </div>
+      <div class="chart-card full">
+        <h3>Average yield by property type</h3>
+        <div class="canvas-wrap" style="height:220px;"><canvas id="chartYield"></canvas></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="view" id="view-properties">
+    <div class="page-head">
+      <div class="eyebrow">Live · Sample Data</div>
+      <h1>Property list</h1>
+      <p>Search, filter and sort the tracked portfolio. Click any row for valuation detail.</p>
+    </div>
+    <div class="filter-row">
+      <input type="text" id="searchInput" placeholder="Search by name or location…">
+      <select id="typeFilter">
+        <option value="">All types</option>
+        <option>Apartment</option><option>Villa</option><option>Townhouse</option><option>Studio</option>
+      </select>
+      <select id="statusFilter">
+        <option value="">All statuses</option>
+        <option>Occupied</option><option>Vacant</option>
+      </select>
+    </div>
+    <div style="overflow-x:auto;">
+      <table>
+        <thead>
+          <tr>
+            <th data-sort="name">Property</th>
+            <th data-sort="type">Type</th>
+            <th data-sort="price">Price</th>
+            <th data-sort="pricePerSqft">AED / Sqft</th>
+            <th data-sort="rent">Monthly Rent</th>
+            <th data-sort="yield">Yield</th>
+            <th data-sort="status">Status</th>
+          </tr>
+        </thead>
+        <tbody id="propertyTableBody"></tbody>
+      </table>
+    </div>
+  </section>
+
+  <section class="view" id="view-roi">
+    <div class="page-head">
+      <div class="eyebrow">Live · Fully Functional</div>
+      <h1>ROI &amp; investment calculator</h1>
+      <p>Adjust any figure — results recalculate immediately.</p>
+    </div>
+    <div class="roi-grid">
+      <div class="roi-form">
+        <div class="field">
+          <label>Purchase price</label>
+          <div class="input-wrap"><input type="number" id="roiPrice" value="2100000"><span class="suffix">AED</span></div>
+        </div>
+        <div class="field-row">
+          <div class="field">
+            <label>Down payment</label>
+            <div class="input-wrap"><input type="number" id="roiDown" value="25"><span class="suffix">%</span></div>
+          </div>
+          <div class="field">
+            <label>Interest rate</label>
+            <div class="input-wrap"><input type="number" id="roiRate" value="4.5" step="0.1"><span class="suffix">%</span></div>
+          </div>
+        </div>
+        <div class="field-row">
+          <div class="field">
+            <label>Loan term</label>
+            <div class="input-wrap"><input type="number" id="roiTerm" value="20"><span class="suffix">yrs</span></div>
+          </div>
+          <div class="field">
+            <label>Appreciation (annual)</label>
+            <div class="input-wrap"><input type="number" id="roiAppr" value="4" step="0.1"><span class="suffix">%</span></div>
+          </div>
+        </div>
+        <div class="field">
+          <label>Monthly rent</label>
+          <div class="input-wrap"><input type="number" id="roiRent" value="12000"><span class="suffix">AED</span></div>
+        </div>
+        <div class="field">
+          <label>Monthly expenses (mgmt, maintenance, vacancy allowance)</label>
+          <div class="input-wrap"><input type="number" id="roiExp" value="1500"><span class="suffix">AED</span></div>
+        </div>
+      </div>
+      <div class="roi-results">
+        <div class="result-hero">
+          <div class="l">Cash-on-cash ROI</div>
+          <div class="v" id="roiOut-roi">—</div>
+        </div>
+        <div class="result-mini-grid">
+          <div class="result-mini"><div class="l">Monthly cash flow</div><div class="v" id="roiOut-cashflow">—</div></div>
+          <div class="result-mini"><div class="l">Annual cash flow</div><div class="v" id="roiOut-annualcf">—</div></div>
+          <div class="result-mini"><div class="l">Monthly mortgage</div><div class="v" id="roiOut-mortgage">—</div></div>
+          <div class="result-mini"><div class="l">Cap rate</div><div class="v" id="roiOut-cap">—</div></div>
+          <div class="result-mini"><div class="l">Payback period</div><div class="v" id="roiOut-payback">—</div></div>
+          <div class="result-mini"><div class="l">Value in 5 years</div><div class="v" id="roiOut-fv">—</div></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="view" id="view-admin">
+    <div id="adminContent"></div>
+  </section>
+
+</main>
+
+<div class="modal-overlay" id="propModalOverlay">
+  <div class="modal" id="propModalBody"></div>
+</div>
+
+<div class="modal-overlay" id="loginOverlay">
+  <div class="modal login-card">
+    <button class="modal-close" onclick="closeLogin()">×</button>
+    <h2>Sign in</h2>
+    <p class="ploc">Choose a role to preview role-based access.</p>
+    <div class="role-options">
+      <div class="role-opt" style="cursor:pointer" onclick="signIn('viewer')">
+        <div class="ic">Viewer</div>
+        <div class="d">Browse dashboard, properties &amp; ROI tool</div>
+      </div>
+      <div class="role-opt" style="cursor:pointer" onclick="signIn('admin')">
+        <div class="ic">Admin</div>
+        <div class="d">Full access, incl. property CRUD</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="toast"></div>
+
+<script>
+let role = null;
+let editingId = null;
+let sortKey = null, sortDir = 1;
+
+let properties = [
+  {id:1, name:'Marina Vista Tower', location:'Dubai Marina', type:'Apartment', price:2100000, sqft:1150, rent:12000, status:'Occupied'},
+  {id:2, name:'Boulevard Point', location:'Downtown Dubai', type:'Apartment', price:2850000, sqft:1320, rent:15500, status:'Occupied'},
+  {id:3, name:'Miska Villa 12', location:'Arabian Ranches', type:'Villa', price:4650000, sqft:3400, rent:22000, status:'Vacant'},
+  {id:4, name:'Silicon Loft 8B', location:'Dubai Silicon Oasis', type:'Studio', price:620000, sqft:480, rent:4200, status:'Occupied'},
+  {id:5, name:'Furjan Terrace 3', location:'Al Furjan', type:'Townhouse', price:1980000, sqft:2100, rent:11500, status:'Occupied'},
+  {id:6, name:'Business Central 1904', location:'Business Bay', type:'Apartment', price:1750000, sqft:980, rent:10200, status:'Occupied'},
+  {id:7, name:'Palm Signature Villa', location:'Palm Jumeirah', type:'Villa', price:9200000, sqft:5200, rent:42000, status:'Occupied'},
+  {id:8, name:'Hills Grove 22', location:'Dubai Hills Estate', type:'Townhouse', price:3100000, sqft:2450, rent:16800, status:'Vacant'},
+  {id:9, name:'DIFC Executive Suite', location:'DIFC', type:'Apartment', price:2400000, sqft:1050, rent:13800, status:'Occupied'},
+  {id:10, name:'JVC Circle Homes 6', location:'Jumeirah Village Circle', type:'Apartment', price:980000, sqft:750, rent:6900, status:'Occupied'},
+  {id:11, name:'Motor City Residence 4', location:'Motor City', type:'Apartment', price:1150000, sqft:820, rent:7600, status:'Vacant'},
+  {id:12, name:'Ranches Meadow 9', location:'Arabian Ranches', type:'Villa', price:5400000, sqft:3900, rent:26500, status:'Occupied'},
+];
+let nextId = 13;
+
+function withMetrics(p){
+  const annualRent = p.rent*12;
+  return {...p, yield: +(annualRent/p.price*100).toFixed(2), pricePerSqft: Math.round(p.price/p.sqft)};
+}
+function fmtAED(n){ return 'AED ' + Math.round(n).toLocaleString(); }
+function fmtAEDShort(n){
+  if(n>=1000000) return 'AED ' + (n/1000000).toFixed(2)+'M';
+  if(n>=1000) return 'AED ' + (n/1000).toFixed(0)+'K';
+  return 'AED '+Math.round(n);
+}
+
+document.getElementById('tabs').addEventListener('click', e=>{
+  const btn = e.target.closest('.tab');
+  if(!btn) return;
+  switchView(btn.dataset.view);
+});
+const validViews = ['dashboard','properties','roi','admin'];
+function switchView(name, skipHash){
+  if(!validViews.includes(name)) name = 'dashboard';
+  document.querySelectorAll('.tab').forEach(t=>t.classList.toggle('active', t.dataset.view===name));
+  document.querySelectorAll('.view').forEach(v=>v.classList.toggle('active', v.id==='view-'+name));
+  if(!skipHash) history.replaceState(null, '', '#'+name);
+  if(name==='admin') renderAdmin();
+}
+window.addEventListener('hashchange', ()=>{
+  const v = location.hash.replace('#','');
+  switchView(v, true);
+});
+
+document.getElementById('signinBtn').addEventListener('click', ()=>{
+  if(role){ role=null; updateRoleUI(); showToast('Signed out.'); renderAdmin(); return; }
+  document.getElementById('loginOverlay').classList.add('show');
+});
+function closeLogin(){ document.getElementById('loginOverlay').classList.remove('show'); }
+function signIn(r){
+  role = r;
+  updateRoleUI();
+  closeLogin();
+  showToast(`Signed in as ${r==='admin'?'Admin':'Viewer'}.`);
+  renderAdmin();
+}
+function updateRoleUI(){
+  const badge = document.getElementById('roleBadge');
+  const btn = document.getElementById('signinBtn');
+  if(role){
+    badge.textContent = role==='admin' ? 'Admin' : 'Viewer';
+    badge.classList.toggle('admin', role==='admin');
+    btn.textContent = 'Sign Out';
+  } else {
+    badge.textContent = 'Not signed in';
+    badge.classList.remove('admin');
+    btn.textContent = 'Sign In';
+  }
+}
+
+let toastTimer;
+function showToast(msg){
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(()=>t.classList.remove('show'), 2400);
+}
+
+let chartTrend, chartOccupancy, chartYield;
+function renderDashboard(){
+  const list = properties.map(withMetrics);
+  const avgYield = list.reduce((s,p)=>s+p.yield,0)/list.length;
+  const totalValue = list.reduce((s,p)=>s+p.price,0);
+  const occupiedCount = list.filter(p=>p.status==='Occupied').length;
+  const occupancyRate = occupiedCount/list.length*100;
+  const avgPsf = list.reduce((s,p)=>s+p.pricePerSqft,0)/list.length;
+
+  document.getElementById('kpiGrid').innerHTML = `
+    <div class="kpi-card"><div class="kpi-label">Average Yield</div><div class="kpi-value">${avgYield.toFixed(2)}%</div><div class="kpi-sub">across ${list.length} properties</div></div>
+    <div class="kpi-card" style="border-color:var(--brass)"><div class="kpi-label">Total Portfolio Value</div><div class="kpi-value">${fmtAEDShort(totalValue)}</div><div class="kpi-sub" style="color:var(--brass)">sample data</div></div>
+    <div class="kpi-card" style="border-color:var(--rust)"><div class="kpi-label">Occupancy Rate</div><div class="kpi-value">${occupancyRate.toFixed(0)}%</div><div class="kpi-sub" style="color:var(--rust)">${occupiedCount}/${list.length} occupied</div></div>
+    <div class="kpi-card"><div class="kpi-label">Avg Price / Sqft</div><div class="kpi-value">${Math.round(avgPsf).toLocaleString()}</div><div class="kpi-sub">AED per sqft</div></div>
+  `;
+
+  const trendLabels = ["Q4 '24","Q1 '25","Q2 '25","Q3 '25","Q4 '25","Q1 '26","Q2 '26","Q3 '26"];
+  const trendData = [100,102.3,101.6,104.8,107.1,109.4,111.0,113.6];
+  const ctxT = document.getElementById('chartTrend');
+  if(chartTrend) chartTrend.destroy();
+  chartTrend = new Chart(ctxT, {
+    type:'line',
+    data:{labels:trendLabels, datasets:[{label:'Price Index', data:trendData, borderColor:'#2F7A66', backgroundColor:'rgba(47,122,102,0.12)', tension:0.35, fill:true, pointRadius:3, pointBackgroundColor:'#2F7A66'}]},
+    options:{plugins:{legend:{display:false}}, scales:{y:{ticks:{color:'#5C6B5F'}, grid:{color:'rgba(27,42,34,0.08)'}}, x:{ticks:{color:'#5C6B5F'}, grid:{display:false}}}, maintainAspectRatio:false}
+  });
+
+  const vacant = list.length - occupiedCount;
+  const ctxO = document.getElementById('chartOccupancy');
+  if(chartOccupancy) chartOccupancy.destroy();
+  chartOccupancy = new Chart(ctxO, {
+    type:'doughnut',
+    data:{labels:['Occupied','Vacant'], datasets:[{data:[occupiedCount, vacant], backgroundColor:['#2F7A66','#B4502F'], borderWidth:0}]},
+    options:{plugins:{legend:{position:'bottom', labels:{color:'#1B2A22', font:{family:'IBM Plex Mono', size:11}}}}, maintainAspectRatio:false, cutout:'62%'}
+  });
+
+  const types = [...new Set(list.map(p=>p.type))];
+  const yieldByType = types.map(t=>{
+    const items = list.filter(p=>p.type===t);
+    return +(items.reduce((s,p)=>s+p.yield,0)/items.length).toFixed(2);
+  });
+  const ctxY = document.getElementById('chartYield');
+  if(chartYield) chartYield.destroy();
+  chartYield = new Chart(ctxY, {
+    type:'bar',
+    data:{labels:types, datasets:[{label:'Avg Yield %', data:yieldByType, backgroundColor:'#B8863E', borderRadius:4, maxBarThickness:56}]},
+    options:{plugins:{legend:{display:false}}, scales:{y:{ticks:{color:'#5C6B5F'}, grid:{color:'rgba(27,42,34,0.08)'}}, x:{ticks:{color:'#5C6B5F'}, grid:{display:false}}}, maintainAspectRatio:false}
+  });
+}
+
+function getFilteredProperties(){
+  const q = document.getElementById('searchInput').value.trim().toLowerCase();
+  const type = document.getElementById('typeFilter').value;
+  const status = document.getElementById('statusFilter').value;
+  let list = properties.map(withMetrics).filter(p=>{
+    if(q && !(p.name.toLowerCase().includes(q) || p.location.toLowerCase().includes(q))) return false;
+    if(type && p.type!==type) return false;
+    if(status && p.status!==status) return false;
+    return true;
+  });
+  if(sortKey){
+    list.sort((a,b)=>{
+      let av=a[sortKey], bv=b[sortKey];
+      if(typeof av==='string') return av.localeCompare(bv)*sortDir;
+      return (av-bv)*sortDir;
+    });
+  }
+  return list;
+}
+function renderProperties(){
+  const list = getFilteredProperties();
+  document.getElementById('propertyTableBody').innerHTML = list.map(p=>`
+    <tr onclick="openPropertyModal(${p.id})">
+      <td><div class="pname">${p.name}</div><div class="ploc">${p.location}</div></td>
+      <td>${p.type}</td>
+      <td>${fmtAED(p.price)}</td>
+      <td>${p.pricePerSqft.toLocaleString()}</td>
+      <td>${fmtAED(p.rent)}</td>
+      <td class="yield-val">${p.yield}%</td>
+      <td><span class="status-pill ${p.status==='Occupied'?'status-occupied':'status-vacant'}">${p.status}</span></td>
+    </tr>
+  `).join('') || `<tr><td colspan="7" style="text-align:center; color:var(--ink-dim); padding:32px;">No properties match those filters.</td></tr>`;
+}
+document.getElementById('searchInput').addEventListener('input', renderProperties);
+document.getElementById('typeFilter').addEventListener('change', renderProperties);
+document.getElementById('statusFilter').addEventListener('change', renderProperties);
+document.querySelectorAll('thead th[data-sort]').forEach(th=>{
+  th.addEventListener('click', ()=>{
+    const key = th.dataset.sort;
+    sortDir = (sortKey===key) ? sortDir*-1 : 1;
+    sortKey = key;
+    renderProperties();
+  });
+});
+
+function openPropertyModal(id){
+  const p = withMetrics(properties.find(x=>x.id===id));
+  const valuationDelta = (((id*37)%11)-5)/100;
+  const valuation = Math.round(p.price*(1+valuationDelta));
+  const marketRentDelta = (((id*13)%7)-3)/100;
+  const marketRent = Math.round(p.rent*(1-marketRentDelta));
+  const yourPct = 100;
+  const marketPct = Math.round((marketRent/Math.max(p.rent,marketRent))*100);
+  document.getElementById('propModalBody').innerHTML = `
+    <button class="modal-close" onclick="closePropertyModal()">×</button>
+    <h2>${p.name}</h2>
+    <div class="ploc">${p.location} · ${p.type}</div>
+    <div class="stamp-inline">Live AI · Mocked Output</div>
+    <div class="detail-grid">
+      <div class="detail-item"><div class="l">Listed Price</div><div class="v">${fmtAED(p.price)}</div></div>
+      <div class="detail-item"><div class="l">Size</div><div class="v">${p.sqft.toLocaleString()} sqft</div></div>
+      <div class="detail-item"><div class="l">Monthly Rent</div><div class="v">${fmtAED(p.rent)}</div></div>
+      <div class="detail-item"><div class="l">Gross Yield</div><div class="v">${p.yield}%</div></div>
+    </div>
+    <div class="valuation-box">
+      <div class="l">AI-Estimated Valuation</div>
+      <div class="v">${fmtAED(valuation)}</div>
+      <div class="note">${valuation>p.price ? '+' : ''}${(((valuation-p.price)/p.price)*100).toFixed(1)}% vs. listed price · generated from mocked smart-logic, not a live model</div>
+    </div>
+    <div class="rent-compare">
+      <div class="l" style="font-family:'IBM Plex Mono',monospace; font-size:.7rem; text-transform:uppercase; color:var(--ink-dim); letter-spacing:.05em;">Rent vs. Market Average</div>
+      <div class="rent-bar-row"><span style="width:70px;">This unit</span><div class="rent-bar-track"><div class="rent-bar-fill" style="width:${yourPct}%; background:var(--teal);"></div></div><span>${fmtAED(p.rent)}</span></div>
+      <div class="rent-bar-row"><span style="width:70px;">Market avg</span><div class="rent-bar-track"><div class="rent-bar-fill" style="width:${marketPct}%; background:var(--brass);"></div></div><span>${fmtAED(marketRent)}</span></div>
+    </div>
+  `;
+  document.getElementById('propModalOverlay').classList.add('show');
+}
+function closePropertyModal(){ document.getElementById('propModalOverlay').classList.remove('show'); }
+
+const roiIds = ['roiPrice','roiDown','roiRate','roiTerm','roiAppr','roiRent','roiExp'];
+roiIds.forEach(id=>document.getElementById(id).addEventListener('input', calcROI));
+function calcROI(){
+  const price = +document.getElementById('roiPrice').value || 0;
+  const downPct = +document.getElementById('roiDown').value || 0;
+  const rate = +document.getElementById('roiRate').value || 0;
+  const term = +document.getElementById('roiTerm').value || 1;
+  const appr = +document.getElementById('roiAppr').value || 0;
+  const rent = +document.getElementById('roiRent').value || 0;
+  const exp = +document.getElementById('roiExp').value || 0;
+
+  const downAmt = price*downPct/100;
+  const loanAmt = price-downAmt;
+  const r = (rate/100)/12;
+  const n = term*12;
+  const mortgage = r===0 ? loanAmt/n : loanAmt*r*Math.pow(1+r,n)/(Math.pow(1+r,n)-1);
+
+  const monthlyCF = rent-exp-mortgage;
+  const annualCF = monthlyCF*12;
+  const cashOnCash = downAmt>0 ? (annualCF/downAmt*100) : 0;
+  const noi = (rent-exp)*12;
+  const capRate = price>0 ? (noi/price*100) : 0;
+  const payback = annualCF>0 ? (downAmt/annualCF) : null;
+  const fv = price*Math.pow(1+appr/100,5);
+
+  document.getElementById('roiOut-roi').textContent = (isFinite(cashOnCash)?cashOnCash.toFixed(2):'0.00')+'%';
+  const cfEl = document.getElementById('roiOut-cashflow');
+  cfEl.textContent = fmtAED(monthlyCF); cfEl.classList.toggle('neg', monthlyCF<0);
+  const acfEl = document.getElementById('roiOut-annualcf');
+  acfEl.textContent = fmtAED(annualCF); acfEl.classList.toggle('neg', annualCF<0);
+  document.getElementById('roiOut-mortgage').textContent = fmtAED(mortgage);
+  document.getElementById('roiOut-cap').textContent = (isFinite(capRate)?capRate.toFixed(2):'0.00')+'%';
+  document.getElementById('roiOut-payback').textContent = payback ? payback.toFixed(1)+' yrs' : '—';
+  document.getElementById('roiOut-fv').textContent = fmtAEDShort(fv);
+}
+
+function renderAdmin(){
+  const el = document.getElementById('adminContent');
+  if(role!=='admin'){
+    el.innerHTML = `
+      <div class="denied-card">
+        <div class="denied-stamp">Admin Access Required</div>
+        <p>Sign in with the Admin role to add, edit, or remove properties.</p>
+        <button class="btn btn-primary" onclick="document.getElementById('loginOverlay').classList.add('show')">Sign In as Admin</button>
+      </div>`;
+    return;
+  }
+  el.innerHTML = `
+    <div class="page-head">
+      <div class="eyebrow">Live · Full CRUD</div>
+      <h1>Admin panel</h1>
+      <p>Add, edit, or remove properties. Changes reflect instantly in the Dashboard and Property list.</p>
+    </div>
+    <div class="admin-layout">
+      <div class="admin-form-card">
+        <h3 id="adminFormTitle">Add Property</h3>
+        <div class="field"><label>Name</label><input id="af-name" type="text" placeholder="e.g. Skyline Residence 4"></div>
+        <div class="field"><label>Location</label><input id="af-location" type="text" placeholder="e.g. Dubai Marina"></div>
+        <div class="field">
+          <label>Type</label>
+          <select id="af-type"><option>Apartment</option><option>Villa</option><option>Townhouse</option><option>Studio</option></select>
+        </div>
+        <div class="field-row">
+          <div class="field"><label>Price (AED)</label><input id="af-price" type="number"></div>
+          <div class="field"><label>Sqft</label><input id="af-sqft" type="number"></div>
+        </div>
+        <div class="field-row">
+          <div class="field"><label>Monthly Rent (AED)</label><input id="af-rent" type="number"></div>
+          <div class="field">
+            <label>Status</label>
+            <select id="af-status"><option>Occupied</option><option>Vacant</option></select>
+          </div>
+        </div>
+        <div class="form-actions">
+          <button class="btn btn-primary" onclick="saveProperty()" id="af-save">Add Property</button>
+          <button class="btn btn-ghost" onclick="resetAdminForm()">Clear</button>
+        </div>
+      </div>
+      <div class="admin-table-wrap" style="overflow-x:auto;">
+        <table>
+          <thead><tr><th>Property</th><th>Type</th><th>Price</th><th>Rent</th><th>Status</th><th>Actions</th></tr></thead>
+          <tbody id="adminTableBody"></tbody>
+        </table>
+      </div>
+    </div>
+  `;
+  renderAdminTable();
+}
+function renderAdminTable(){
+  document.getElementById('adminTableBody').innerHTML = properties.map(p=>`
+    <tr>
+      <td><div class="pname">${p.name}</div><div class="ploc">${p.location}</div></td>
+      <td>${p.type}</td>
+      <td>${fmtAED(p.price)}</td>
+      <td>${fmtAED(p.rent)}</td>
+      <td><span class="status-pill ${p.status==='Occupied'?'status-occupied':'status-vacant'}">${p.status}</span></td>
+      <td class="actions">
+        <button class="icon-btn" onclick="editProperty(${p.id})">Edit</button>
+        <button class="icon-btn danger" onclick="deleteProperty(${p.id})">Delete</button>
+      </td>
+    </tr>
+  `).join('');
+}
+function resetAdminForm(){
+  editingId = null;
+  document.getElementById('adminFormTitle').textContent = 'Add Property';
+  document.getElementById('af-save').textContent = 'Add Property';
+  ['af-name','af-location','af-price','af-sqft','af-rent'].forEach(id=>document.getElementById(id).value='');
+  document.getElementById('af-type').value = 'Apartment';
+  document.getElementById('af-status').value = 'Occupied';
+}
+function editProperty(id){
+  const p = properties.find(x=>x.id===id);
+  editingId = id;
+  document.getElementById('adminFormTitle').textContent = 'Edit Property';
+  document.getElementById('af-save').textContent = 'Save Changes';
+  document.getElementById('af-name').value = p.name;
+  document.getElementById('af-location').value = p.location;
+  document.getElementById('af-type').value = p.type;
+  document.getElementById('af-price').value = p.price;
+  document.getElementById('af-sqft').value = p.sqft;
+  document.getElementById('af-rent').value = p.rent;
+  document.getElementById('af-status').value = p.status;
+  window.scrollTo({top:0, behavior:'smooth'});
+}
+function saveProperty(){
+  const name = document.getElementById('af-name').value.trim();
+  const location = document.getElementById('af-location').value.trim();
+  const type = document.getElementById('af-type').value;
+  const price = +document.getElementById('af-price').value;
+  const sqft = +document.getElementById('af-sqft').value;
+  const rent = +document.getElementById('af-rent').value;
+  const status = document.getElementById('af-status').value;
+  if(!name || !location || !price || !sqft || !rent){
+    showToast('Fill in all fields before saving.');
+    return;
+  }
+  if(editingId){
+    const p = properties.find(x=>x.id===editingId);
+    Object.assign(p, {name,location,type,price,sqft,rent,status});
+    showToast('Property updated.');
+  } else {
+    properties.push({id:nextId++, name,location,type,price,sqft,rent,status});
+    showToast('Property added.');
+  }
+  resetAdminForm();
+  renderAdminTable();
+  renderProperties();
+  renderDashboard();
+}
+function deleteProperty(id){
+  if(!confirm('Delete this property? This cannot be undone.')) return;
+  properties = properties.filter(p=>p.id!==id);
+  renderAdminTable();
+  renderProperties();
+  renderDashboard();
+  showToast('Property deleted.');
+}
+
+renderDashboard();
+renderProperties();
+calcROI();
+updateRoleUI();
+const initialView = location.hash.replace('#','');
+if(validViews.includes(initialView)) switchView(initialView, true);
+</script>
+</body>
+</html>
