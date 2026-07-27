@@ -4,19 +4,21 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>VALYRIFY — Future Roadmap</title>
+<link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32.png">
+<link rel="apple-touch-icon" sizes="180x180" href="assets/favicon-180.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,500;0,9..144,600;1,9..144,400&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
   :root{
-    --bg:#102A1E; --bg-deep:#0B2017;
-    --paper:#F3EEDF; --paper-dim:#E7DFC6;
-    --brass:#B8863E; --brass-light:#D9AF6C;
-    --teal:#2F7A66;
+    --bg:#17181B; --bg-deep:#0E0F11;
+    --paper:#F7F5F0; --paper-dim:#EAE7DF;
+    --brass:#C9A227; --brass-light:#E8C468;
+    --teal:#2E96A0;
     --rust:#B4502F;
-    --ink:#1B2A22; --ink-dim:#5C6B5F;
-    --cream:#F3EEDF; --cream-dim:#AFBBA9;
-    --rule: rgba(184,134,62,0.35);
+    --ink:#1C1C1C; --ink-dim:#6B6B6B;
+    --cream:#F7F5F0; --cream-dim:#B7B2A6;
+    --rule: rgba(201,162,39,0.35);
   }
   *{box-sizing:border-box; margin:0; padding:0;}
   html{scroll-behavior:smooth;}
@@ -24,9 +26,10 @@
   a{color:inherit; text-decoration:none;}
   .wrap{max-width:1180px; margin:0 auto; padding:0 32px;}
 
-  header{position:sticky; top:0; z-index:50; background:rgba(16,42,30,0.94); backdrop-filter:blur(6px); border-bottom:1px solid var(--rule);}
+  header{position:sticky; top:0; z-index:50; background:rgba(23,24,27,0.94); backdrop-filter:blur(6px); border-bottom:1px solid var(--rule);}
   nav.wrap{display:flex; align-items:center; justify-content:space-between; height:64px;}
-  .logo{font-family:'Fraunces',serif; font-weight:600; font-size:1.15rem; letter-spacing:0.04em;}
+  .logo{font-family:'Fraunces',serif; font-weight:600; font-size:1.15rem; letter-spacing:0.04em; display:flex; align-items:center;}
+  .logo-img{height:32px; width:auto; display:block;}
   .logo span{color:var(--brass-light);}
   .navlinks{display:flex; gap:28px; align-items:center;}
   .navlinks a{font-size:0.82rem; letter-spacing:0.06em; text-transform:uppercase; color:var(--cream-dim); font-family:'IBM Plex Mono',monospace; transition:color .2s;}
@@ -101,7 +104,7 @@
 
 <header>
   <nav class="wrap">
-    <a href="index.html" class="logo">VALY<span>RIFY</span></a>
+    <a href="index.html" class="logo"><img src="assets/valyrify-logo-light.png" alt="VALYRIFY" class="logo-img"></a>
     <div class="navlinks">
       <a href="index.html#modules">Modules</a>
       <a href="index.html#journey">Journey</a>

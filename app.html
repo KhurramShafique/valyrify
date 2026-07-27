@@ -4,20 +4,22 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>VALYRIFY — Vision Demo App</title>
+<link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32.png">
+<link rel="apple-touch-icon" sizes="180x180" href="assets/favicon-180.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,500;0,9..144,600;1,9..144,400&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.4/chart.umd.min.js"></script>
 <style>
   :root{
-    --bg:#102A1E; --bg-deep:#0B2017;
-    --paper:#F3EEDF; --paper-dim:#E7DFC6;
-    --brass:#B8863E; --brass-light:#D9AF6C;
-    --teal:#2F7A66; --teal-dim:#8FBBAE;
+    --bg:#17181B; --bg-deep:#0E0F11;
+    --paper:#F7F5F0; --paper-dim:#EAE7DF;
+    --brass:#C9A227; --brass-light:#E8C468;
+    --teal:#2E96A0; --teal-dim:#8FCBD1;
     --rust:#B4502F; --rust-dim:#D99676;
-    --ink:#1B2A22; --ink-dim:#5C6B5F;
-    --cream:#F3EEDF; --cream-dim:#AFBBA9;
-    --rule: rgba(184,134,62,0.35);
+    --ink:#1C1C1C; --ink-dim:#6B6B6B;
+    --cream:#F7F5F0; --cream-dim:#B7B2A6;
+    --rule: rgba(201,162,39,0.35);
   }
   *{box-sizing:border-box; margin:0; padding:0;}
   body{background:var(--bg); color:var(--cream); font-family:'Inter',sans-serif; line-height:1.5; -webkit-font-smoothing:antialiased;}
@@ -28,9 +30,10 @@
   input,select{font-family:inherit;}
   .wrap{max-width:1220px; margin:0 auto; padding:0 32px;}
 
-  header{position:sticky; top:0; z-index:50; background:rgba(16,42,30,0.96); backdrop-filter:blur(6px); border-bottom:1px solid var(--rule);}
+  header{position:sticky; top:0; z-index:50; background:rgba(23,24,27,0.96); backdrop-filter:blur(6px); border-bottom:1px solid var(--rule);}
   nav.wrap{display:flex; align-items:center; justify-content:space-between; height:64px; gap:20px;}
-  .logo{font-family:'Fraunces',serif; font-weight:600; font-size:1.1rem; letter-spacing:.04em; flex-shrink:0;}
+  .logo{font-family:'Fraunces',serif; font-weight:600; font-size:1.1rem; letter-spacing:.04em; flex-shrink:0; display:flex; align-items:center;}
+  .logo-img{height:32px; width:auto; display:block;}
   .logo span{color:var(--brass-light);}
   .tabs{display:flex; gap:4px; flex:1; overflow-x:auto;}
   .tab{font-family:'IBM Plex Mono',monospace; font-size:.76rem; letter-spacing:.05em; text-transform:uppercase; color:var(--cream-dim); background:none; border:none; padding:9px 14px; border-radius:3px; white-space:nowrap; transition:all .2s;}
@@ -73,21 +76,21 @@
   table{width:100%; border-collapse:collapse; background:var(--paper); color:var(--ink); border-radius:4px; overflow:hidden;}
   thead th{
     text-align:left; font-family:'IBM Plex Mono',monospace; font-size:.7rem; letter-spacing:.06em; text-transform:uppercase;
-    color:var(--ink-dim); padding:14px 16px; border-bottom:1px solid rgba(27,42,34,0.15); cursor:pointer; user-select:none;
+    color:var(--ink-dim); padding:14px 16px; border-bottom:1px solid rgba(28,28,28,0.15); cursor:pointer; user-select:none;
   }
   thead th:hover{color:var(--teal);}
-  tbody td{padding:14px 16px; border-bottom:1px solid rgba(27,42,34,0.08); font-size:.9rem;}
+  tbody td{padding:14px 16px; border-bottom:1px solid rgba(28,28,28,0.08); font-size:.9rem;}
   tbody tr{cursor:pointer; transition:background .15s;}
   tbody tr:hover{background:var(--paper-dim);}
   tbody tr:last-child td{border-bottom:none;}
   .pname{font-family:'Fraunces',serif; font-weight:500; font-size:1rem;}
   .ploc{color:var(--ink-dim); font-size:.8rem; margin-top:2px;}
   .status-pill{font-family:'IBM Plex Mono',monospace; font-size:.68rem; text-transform:uppercase; padding:4px 9px; border-radius:10px; letter-spacing:.04em;}
-  .status-occupied{background:rgba(47,122,102,0.14); color:var(--teal);}
+  .status-occupied{background:rgba(46,150,160,0.14); color:var(--teal);}
   .status-vacant{background:rgba(180,80,47,0.14); color:var(--rust);}
   .yield-val{font-family:'IBM Plex Mono',monospace; font-weight:600; color:var(--teal);}
 
-  .modal-overlay{position:fixed; inset:0; background:rgba(11,32,23,0.72); display:none; align-items:center; justify-content:center; z-index:200; padding:24px;}
+  .modal-overlay{position:fixed; inset:0; background:rgba(14,15,17,0.72); display:none; align-items:center; justify-content:center; z-index:200; padding:24px;}
   .modal-overlay.show{display:flex;}
   .modal{background:var(--paper); color:var(--ink); width:100%; max-width:560px; border-radius:6px; padding:32px; max-height:88vh; overflow-y:auto; position:relative;}
   .modal-close{position:absolute; top:18px; right:18px; background:none; border:none; font-size:1.3rem; color:var(--ink-dim); line-height:1;}
@@ -129,7 +132,7 @@
   .field{margin-bottom:18px;}
   .field label{display:block; font-family:'IBM Plex Mono',monospace; font-size:.72rem; text-transform:uppercase; letter-spacing:.05em; color:var(--ink-dim); margin-bottom:7px;}
   .field .input-wrap{position:relative;}
-  .field input{width:100%; padding:11px 14px; border:1px solid rgba(27,42,34,0.2); border-radius:3px; font-size:.95rem; background:#fff; color:var(--ink); font-family:'IBM Plex Mono',monospace;}
+  .field input{width:100%; padding:11px 14px; border:1px solid rgba(28,28,28,0.2); border-radius:3px; font-size:.95rem; background:#fff; color:var(--ink); font-family:'IBM Plex Mono',monospace;}
   .field input:focus{outline:none; border-color:var(--teal);}
   .field .suffix{position:absolute; right:12px; top:50%; transform:translateY(-50%); color:var(--ink-dim); font-size:.8rem; font-family:'IBM Plex Mono',monospace;}
   .field-row{display:grid; grid-template-columns:1fr 1fr; gap:14px;}
@@ -147,15 +150,15 @@
   .admin-layout{display:grid; grid-template-columns:340px 1fr; gap:20px; align-items:start;}
   .admin-form-card{background:var(--paper); color:var(--ink); border-radius:6px; padding:24px; position:sticky; top:88px;}
   .admin-form-card h3{font-family:'Fraunces',serif; font-weight:500; margin-bottom:16px; font-size:1.1rem;}
-  .field select{width:100%; padding:11px 14px; border:1px solid rgba(27,42,34,0.2); border-radius:3px; font-size:.9rem; background:#fff; color:var(--ink);}
+  .field select{width:100%; padding:11px 14px; border:1px solid rgba(28,28,28,0.2); border-radius:3px; font-size:.9rem; background:#fff; color:var(--ink);}
   .form-actions{display:flex; gap:10px; margin-top:6px;}
   .btn{font-family:'IBM Plex Mono',monospace; font-size:.78rem; letter-spacing:.05em; text-transform:uppercase; padding:11px 18px; border-radius:3px; border:1px solid transparent; transition:all .2s;}
   .btn-primary{background:var(--teal); color:#fff; font-weight:600;}
   .btn-primary:hover{background:#256153;}
-  .btn-ghost{background:none; border-color:rgba(27,42,34,0.2); color:var(--ink);}
+  .btn-ghost{background:none; border-color:rgba(28,28,28,0.2); color:var(--ink);}
   .btn-ghost:hover{border-color:var(--ink);}
   .admin-table-wrap table td.actions{display:flex; gap:8px;}
-  .icon-btn{background:none; border:1px solid rgba(27,42,34,0.15); border-radius:3px; padding:6px 10px; font-size:.78rem; color:var(--ink);}
+  .icon-btn{background:none; border:1px solid rgba(28,28,28,0.15); border-radius:3px; padding:6px 10px; font-size:.78rem; color:var(--ink);}
   .icon-btn:hover{border-color:var(--teal); color:var(--teal);}
   .icon-btn.danger:hover{border-color:var(--rust); color:var(--rust);}
 
@@ -165,7 +168,7 @@
 
   .login-card{max-width:400px;}
   .role-options{display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-top:20px;}
-  .role-opt{border:1.5px solid rgba(27,42,34,0.2); border-radius:5px; padding:18px 14px; text-align:center; background:#fff;}
+  .role-opt{border:1.5px solid rgba(28,28,28,0.2); border-radius:5px; padding:18px 14px; text-align:center; background:#fff;}
   .role-opt:hover{border-color:var(--teal);}
   .role-opt .ic{font-family:'Fraunces',serif; font-size:1.3rem; margin-bottom:6px;}
   .role-opt .d{font-size:.76rem; color:var(--ink-dim);}
@@ -188,7 +191,7 @@
 
 <header>
   <nav class="wrap">
-    <a href="index.html" class="logo" style="text-decoration:none;">VALY<span>RIFY</span></a>
+    <a href="index.html" class="logo" style="text-decoration:none;"><img src="assets/valyrify-logo-light.png" alt="VALYRIFY" class="logo-img"></a>
     <div class="tabs" id="tabs">
       <button class="tab active" data-view="dashboard">Dashboard</button>
       <button class="tab" data-view="properties">Properties</button>
@@ -471,8 +474,8 @@ function renderDashboard(){
   if(chartTrend) chartTrend.destroy();
   chartTrend = new Chart(ctxT, {
     type:'line',
-    data:{labels:trendLabels, datasets:[{label:'Price Index', data:trendData, borderColor:'#2F7A66', backgroundColor:'rgba(47,122,102,0.12)', tension:0.35, fill:true, pointRadius:3, pointBackgroundColor:'#2F7A66'}]},
-    options:{plugins:{legend:{display:false}}, scales:{y:{ticks:{color:'#5C6B5F'}, grid:{color:'rgba(27,42,34,0.08)'}}, x:{ticks:{color:'#5C6B5F'}, grid:{display:false}}}, maintainAspectRatio:false}
+    data:{labels:trendLabels, datasets:[{label:'Price Index', data:trendData, borderColor:'#2E96A0', backgroundColor:'rgba(46,150,160,0.12)', tension:0.35, fill:true, pointRadius:3, pointBackgroundColor:'#2E96A0'}]},
+    options:{plugins:{legend:{display:false}}, scales:{y:{ticks:{color:'#6B6B6B'}, grid:{color:'rgba(28,28,28,0.08)'}}, x:{ticks:{color:'#6B6B6B'}, grid:{display:false}}}, maintainAspectRatio:false}
   });
 
   const vacant = list.length - occupiedCount;
@@ -480,8 +483,8 @@ function renderDashboard(){
   if(chartOccupancy) chartOccupancy.destroy();
   chartOccupancy = new Chart(ctxO, {
     type:'doughnut',
-    data:{labels:['Occupied','Vacant'], datasets:[{data:[occupiedCount, vacant], backgroundColor:['#2F7A66','#B4502F'], borderWidth:0}]},
-    options:{plugins:{legend:{position:'bottom', labels:{color:'#1B2A22', font:{family:'IBM Plex Mono', size:11}}}}, maintainAspectRatio:false, cutout:'62%'}
+    data:{labels:['Occupied','Vacant'], datasets:[{data:[occupiedCount, vacant], backgroundColor:['#2E96A0','#B4502F'], borderWidth:0}]},
+    options:{plugins:{legend:{position:'bottom', labels:{color:'#1C1C1C', font:{family:'IBM Plex Mono', size:11}}}}, maintainAspectRatio:false, cutout:'62%'}
   });
 
   const types = [...new Set(list.map(p=>p.type))];
@@ -493,8 +496,8 @@ function renderDashboard(){
   if(chartYield) chartYield.destroy();
   chartYield = new Chart(ctxY, {
     type:'bar',
-    data:{labels:types, datasets:[{label:'Avg Yield %', data:yieldByType, backgroundColor:'#B8863E', borderRadius:4, maxBarThickness:56}]},
-    options:{plugins:{legend:{display:false}}, scales:{y:{ticks:{color:'#5C6B5F'}, grid:{color:'rgba(27,42,34,0.08)'}}, x:{ticks:{color:'#5C6B5F'}, grid:{display:false}}}, maintainAspectRatio:false}
+    data:{labels:types, datasets:[{label:'Avg Yield %', data:yieldByType, backgroundColor:'#C9A227', borderRadius:4, maxBarThickness:56}]},
+    options:{plugins:{legend:{display:false}}, scales:{y:{ticks:{color:'#6B6B6B'}, grid:{color:'rgba(28,28,28,0.08)'}}, x:{ticks:{color:'#6B6B6B'}, grid:{display:false}}}, maintainAspectRatio:false}
   });
 }
 
