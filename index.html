@@ -60,8 +60,23 @@
   .navtag{font-size:0.68rem; letter-spacing:0.08em; color:var(--dark-deep); background:var(--brass); padding:8px 14px; border-radius:20px; text-transform:uppercase; white-space:nowrap; font-family:'IBM Plex Mono',monospace; font-weight:600; transition:background .2s;}
   .navtag:hover{background:var(--brass-light);}
 
+  /* Site-level stepper — shows where this page sits in the 3-page flow */
+  .site-stepper{background:var(--bg-soft); border-bottom:1px solid var(--rule); padding:14px 0; margin-top:64px; position:sticky; top:64px; z-index:49;}
+  .stepper-row{display:flex; align-items:center; gap:10px; flex-wrap:wrap;}
+  .step-node{display:flex; align-items:center; gap:8px; font-family:'IBM Plex Mono',monospace; font-size:0.76rem; letter-spacing:.03em; color:var(--ink-dim); transition:color .2s;}
+  .step-node:hover{color:var(--ink);}
+  .step-node .step-num{
+    width:20px; height:20px; border-radius:50%; display:flex; align-items:center; justify-content:center;
+    font-size:0.66rem; font-weight:700; border:1.5px solid var(--ink-dim); flex-shrink:0;
+  }
+  .step-node.active{color:var(--ink); font-weight:600;}
+  .step-node.active .step-num{background:var(--brass); border-color:var(--brass); color:var(--dark-deep);}
+  .step-node.done .step-num{background:var(--teal-fill); border-color:var(--teal-fill); color:#fff;}
+  .step-line{width:28px; height:1px; background:var(--rule); flex-shrink:0;}
+  @media (max-width:560px){ .step-node span:last-child{display:none;} }
+
   /* HERO */
-  .hero{padding:150px 0 0; position:relative; overflow:hidden;}
+  .hero{padding:56px 0 0; position:relative; overflow:hidden;}
   .hero-grid{display:grid; grid-template-columns:1.05fr 0.95fr; gap:48px; align-items:center;}
   .eyebrow{font-family:'IBM Plex Mono',monospace; font-size:0.76rem; letter-spacing:0.14em; color:var(--brass-deep); text-transform:uppercase; margin-bottom:20px; display:flex; align-items:center; gap:10px;}
   .eyebrow::before{content:""; width:24px; height:2px; background:var(--brass); border-radius:2px;}
@@ -86,6 +101,8 @@
   .btn-primary:hover{background:var(--brass-deep); color:#fff;}
   .btn-outline{border-color:var(--ink); color:var(--ink); background:var(--surface);}
   .btn-outline:hover{border-color:var(--brass-deep); color:var(--brass-deep);}
+  .skip-link{display:inline-block; margin-top:16px; font-family:'IBM Plex Mono',monospace; font-size:0.78rem; color:var(--ink-dim); text-decoration:underline; text-underline-offset:3px;}
+  .skip-link:hover{color:var(--brass-deep);}
 
   /* Hero visual: mini dashboard preview cluster */
   .hero-visual{position:relative; height:420px;}
@@ -183,6 +200,9 @@
   }
   .jtext h4{font-family:'Fraunces', serif; font-weight:600; font-size:1.12rem; margin-bottom:6px; color:var(--ink);}
   .jtext p{color:var(--ink-dim); font-size:0.95rem; max-width:56ch;}
+  .jtry{display:inline-block; margin-top:10px; font-family:'IBM Plex Mono',monospace; font-size:0.76rem; color:var(--brass-deep); font-weight:600;}
+  .jtry:hover{text-decoration:underline;}
+  .jrow:first-child .jnum{background:var(--brass); border-color:var(--brass); color:var(--dark-deep); font-weight:700;}
 
   /* Roadmap teaser cards */
   .roadmap-grid{display:grid; grid-template-columns:repeat(4,1fr); gap:16px;}
@@ -240,13 +260,23 @@
   <nav class="wrap">
     <div class="logo"><img src="assets/valyrify-logo-light.png" alt="VALYRIFY" class="logo-img"></div>
     <div class="navlinks">
+      <a href="#journey">Guided Tour</a>
       <a href="#modules">Modules</a>
-      <a href="#journey">Journey</a>
       <a href="roadmap.html">Roadmap</a>
     </div>
     <a href="app.html" class="navtag">Launch App →</a>
   </nav>
 </header>
+
+<div class="site-stepper">
+  <div class="wrap stepper-row">
+    <span class="step-node active"><span class="step-num">1</span> <span>Overview</span></span>
+    <span class="step-line"></span>
+    <a href="app.html" class="step-node"><span class="step-num">2</span> <span>Live Demo</span></a>
+    <span class="step-line"></span>
+    <a href="roadmap.html" class="step-node"><span class="step-num">3</span> <span>Roadmap</span></a>
+  </div>
+</div>
 
 <section class="hero">
   <div class="wrap">
@@ -256,9 +286,10 @@
         <h1 class="headline">Property intelligence, <em>made visible.</em></h1>
         <p class="sub">VALYRIFY is an AI-native platform for valuation, rental pricing, and investment forecasting — built for the moment investors, developers, and asset managers need certainty, not guesswork.</p>
         <div class="cta-row">
-          <a href="app.html#dashboard" class="btn btn-primary">Enter the Demo →</a>
+          <a href="#journey" class="btn btn-primary">See How It Works ↓</a>
           <a href="roadmap.html" class="btn btn-outline">View the Roadmap</a>
         </div>
+        <a href="app.html#dashboard" class="skip-link">or skip straight to the live demo →</a>
       </div>
       <div class="hero-visual">
         <div class="float-card fc-kpi">
@@ -295,25 +326,25 @@
   </div>
 </section>
 
-<section id="modules">
-  <div class="wrap">
-    <div class="section-head">
-      <div class="eyebrow">Module Index</div>
-      <h2>Today &amp; tomorrow, side by side</h2>
-      <p>Every module below runs on sample data in this demo. Where the full product goes further, that's marked as what's coming next.</p>
-    </div>
-    <div class="module-grid" id="moduleGrid"></div>
-  </div>
-</section>
-
 <section id="journey" style="background:var(--bg-soft);">
   <div class="wrap">
     <div class="section-head">
-      <div class="eyebrow">First-Time Visitor</div>
-      <h2>How someone experiences it</h2>
-      <p>The path a visitor takes through the demo, start to finish.</p>
+      <div class="eyebrow">Guided Tour · Start Here</div>
+      <h2>Follow this path, step by step</h2>
+      <p>Six steps, in order — each one opens the exact screen it describes. Prefer to explore on your own instead? Jump to the <a href="#modules" style="color:var(--brass-deep); text-decoration:underline;">Module Index</a> below to browse any feature directly.</p>
     </div>
     <div class="journey" id="journeyList"></div>
+  </div>
+</section>
+
+<section id="modules">
+  <div class="wrap">
+    <div class="section-head">
+      <div class="eyebrow">Module Index · Explore Freely</div>
+      <h2>Or jump straight to any feature</h2>
+      <p>Every module below runs on sample data in this demo. Where the full product goes further, that's marked as what's coming next.</p>
+    </div>
+    <div class="module-grid" id="moduleGrid"></div>
   </div>
 </section>
 
@@ -348,8 +379,8 @@
       <p>Vision Demo prepared by Khurram Shafique for Faruk Wayne.</p>
     </div>
     <div class="foot-right">
+      <a href="#journey">Guided Tour</a>
       <a href="#modules">Modules</a>
-      <a href="#journey">Journey</a>
       <a href="roadmap.html">Roadmap</a>
       <a href="app.html">Launch App</a>
       <span class="prototag">Prototypes 1–2 Live</span>
@@ -409,17 +440,21 @@
 
   // Journey data (from proposal §5)
   const journey = [
-    ['Lands on the Dashboard','Sees key metrics, charts, and a clear value proposition right away.'],
-    ['Explores the Property List','Browses sample properties with full details.'],
-    ['Tests the ROI Calculator','Enters numbers and gets instant results.'],
-    ['Opens a Valuation','Sees the mocked AI output, marked with a “Live AI” badge.'],
-    ['Visits the Future Roadmap','Understands where the product is headed.'],
-    ['Leaves with a clear read','“This is a serious, well-designed platform with a bright future.”'],
+    ['Lands on the Dashboard','Sees key metrics, charts, and a clear value proposition right away.', 'app.html#dashboard'],
+    ['Explores the Property List','Browses sample properties with full details.', 'app.html#properties'],
+    ['Tests the ROI Calculator','Enters numbers and gets instant results.', 'app.html#roi'],
+    ['Opens a Valuation','Sees the mocked AI output, marked with a “Live AI” badge.', 'app.html#properties'],
+    ['Visits the Future Roadmap','Understands where the product is headed.', 'roadmap.html'],
+    ['Leaves with a clear read','“This is a serious, well-designed platform with a bright future.”', null],
   ];
   document.getElementById('journeyList').innerHTML = journey.map((j,i)=>`
     <div class="jrow">
       <div class="jnum">${i+1}</div>
-      <div class="jtext"><h4>${j[0]}</h4><p>${j[1]}</p></div>
+      <div class="jtext">
+        <h4>${j[0]}</h4>
+        <p>${j[1]}</p>
+        ${j[2] ? `<a href="${j[2]}" class="jtry">Try this step →</a>` : ''}
+      </div>
     </div>
   `).join('');
 

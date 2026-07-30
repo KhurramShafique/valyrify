@@ -39,7 +39,15 @@
   .logo-img{height:32px; width:auto; display:block;}
   .logo span{color:var(--brass-light);}
   .tabs{display:flex; gap:4px; flex:1; overflow-x:auto;}
-  .tab{font-family:'IBM Plex Mono',monospace; font-size:.76rem; letter-spacing:.05em; text-transform:uppercase; color:var(--cream-dim); background:none; border:none; padding:9px 14px; border-radius:3px; white-space:nowrap; transition:all .2s;}
+  .tab{font-family:'IBM Plex Mono',monospace; font-size:.76rem; letter-spacing:.05em; text-transform:uppercase; color:var(--cream-dim); background:none; border:none; padding:9px 14px; border-radius:3px; white-space:nowrap; transition:all .2s; display:inline-flex; align-items:center; gap:7px;}
+  .tab-num{
+    width:16px; height:16px; border-radius:50%; border:1px solid currentColor; display:inline-flex;
+    align-items:center; justify-content:center; font-size:0.6rem; flex-shrink:0; opacity:0.8;
+  }
+  .tab.active .tab-num{background:var(--dark-deep); border-color:var(--dark-deep);}
+  .tab-sep{width:1px; height:18px; background:rgba(247,245,240,0.15); margin:0 4px;}
+  .tab-admin{opacity:0.85;}
+  .tab-lock{font-size:0.7rem; opacity:0.7;}
   .tab:hover{color:var(--cream);}
   .tab.active{color:var(--bg-deep); background:var(--brass-light); font-weight:600;}
   .nav-right{display:flex; align-items:center; gap:12px; flex-shrink:0;}
@@ -56,6 +64,21 @@
   .page-head{margin-bottom:34px;}
   .eyebrow{font-family:'IBM Plex Mono',monospace; font-size:.75rem; letter-spacing:.14em; color:var(--brass-deep); text-transform:uppercase; margin-bottom:10px; display:flex; align-items:center; gap:10px;}
   .eyebrow::before{content:""; width:22px; height:2px; background:var(--brass); border-radius:2px;}
+
+  /* Site-level stepper */
+  .site-stepper{background:var(--paper-dim); border-bottom:1px solid var(--rule); padding:14px 0; position:sticky; top:64px; z-index:49;}
+  .stepper-row{display:flex; align-items:center; gap:10px; flex-wrap:wrap;}
+  .step-node{display:flex; align-items:center; gap:8px; font-family:'IBM Plex Mono',monospace; font-size:0.76rem; letter-spacing:.03em; color:var(--ink-dim); transition:color .2s;}
+  .step-node:hover{color:var(--ink);}
+  .step-node .step-num{
+    width:20px; height:20px; border-radius:50%; display:flex; align-items:center; justify-content:center;
+    font-size:0.66rem; font-weight:700; border:1.5px solid var(--ink-dim); flex-shrink:0;
+  }
+  .step-node.active{color:var(--ink); font-weight:600;}
+  .step-node.active .step-num{background:var(--brass); border-color:var(--brass); color:var(--dark-deep);}
+  .step-node.done .step-num{background:var(--teal-fill); border-color:var(--teal-fill); color:#fff;}
+  .step-line{width:28px; height:1px; background:var(--rule); flex-shrink:0;}
+  @media (max-width:560px){ .step-node span:last-child{display:none;} }
   .page-head h1{font-family:'Fraunces',serif; font-weight:500; font-size:clamp(1.7rem,3vw,2.3rem);}
   .page-head p{color:var(--ink-dim); margin-top:8px; max-width:60ch;}
 
@@ -157,6 +180,19 @@
   .form-actions{display:flex; gap:10px; margin-top:6px;}
   .btn{font-family:'IBM Plex Mono',monospace; font-size:.78rem; letter-spacing:.05em; text-transform:uppercase; padding:11px 18px; border-radius:3px; border:1px solid transparent; transition:all .2s;}
   .btn-primary{background:var(--teal-fill); color:#fff; font-weight:600;}
+
+  /* Guided-tour flow nav at the bottom of each view */
+  .flow-nav{display:flex; justify-content:space-between; align-items:center; margin-top:32px; gap:12px; flex-wrap:wrap;}
+  .flow-nav-end{justify-content:flex-end;}
+  .flow-btn{
+    font-family:'IBM Plex Mono',monospace; font-size:.8rem; letter-spacing:.03em; text-transform:none;
+    padding:12px 20px; border-radius:8px; border:1.5px solid transparent; cursor:pointer; transition:all .2s;
+    display:inline-block; text-decoration:none;
+  }
+  .flow-back{background:none; border-color:var(--rule); color:var(--ink-dim);}
+  .flow-back:hover{border-color:var(--ink); color:var(--ink);}
+  .flow-next{background:var(--brass); color:var(--dark-deep); font-weight:600; border-color:var(--brass);}
+  .flow-next:hover{background:var(--brass-deep); color:#fff;}
   .btn-primary:hover{background:#256153;}
   .btn-ghost{background:none; border-color:rgba(28,28,28,0.2); color:var(--ink);}
   .btn-ghost:hover{border-color:var(--ink);}
@@ -196,10 +232,11 @@
   <nav class="wrap">
     <a href="index.html" class="logo" style="text-decoration:none;"><img src="assets/valyrify-logo-light.png" alt="VALYRIFY" class="logo-img"></a>
     <div class="tabs" id="tabs">
-      <button class="tab active" data-view="dashboard">Dashboard</button>
-      <button class="tab" data-view="properties">Properties</button>
-      <button class="tab" data-view="roi">ROI Calculator</button>
-      <button class="tab" data-view="admin">Admin</button>
+      <button class="tab active" data-view="dashboard"><span class="tab-num">1</span> Dashboard</button>
+      <button class="tab" data-view="properties"><span class="tab-num">2</span> Properties</button>
+      <button class="tab" data-view="roi"><span class="tab-num">3</span> ROI Calculator</button>
+      <span class="tab-sep"></span>
+      <button class="tab tab-admin" data-view="admin">Admin <span class="tab-lock">🔒</span></button>
     </div>
     <div class="nav-right">
       <a href="index.html" class="tab" style="padding:9px 10px;">← Overview</a>
@@ -209,6 +246,16 @@
     </div>
   </nav>
 </header>
+
+<div class="site-stepper">
+  <div class="wrap stepper-row">
+    <a href="index.html" class="step-node done"><span class="step-num">✓</span> <span>Overview</span></a>
+    <span class="step-line"></span>
+    <span class="step-node active"><span class="step-num">2</span> <span>Live Demo</span></span>
+    <span class="step-line"></span>
+    <a href="roadmap.html" class="step-node"><span class="step-num">3</span> <span>Roadmap</span></a>
+  </div>
+</div>
 
 <main>
 
@@ -236,6 +283,9 @@
         <h3>Average yield by property type</h3>
         <div class="canvas-wrap" style="height:220px;"><canvas id="chartYield"></canvas></div>
       </div>
+    </div>
+    <div class="flow-nav flow-nav-end">
+      <button class="flow-btn flow-next" onclick="switchView('properties')">Next: Explore Properties →</button>
     </div>
   </section>
 
@@ -275,6 +325,10 @@
         </thead>
         <tbody id="propertyTableBody"></tbody>
       </table>
+    </div>
+    <div class="flow-nav">
+      <button class="flow-btn flow-back" onclick="switchView('dashboard')">← Back: Dashboard</button>
+      <button class="flow-btn flow-next" onclick="switchView('roi')">Next: ROI Calculator →</button>
     </div>
   </section>
 
@@ -337,6 +391,10 @@
           <div class="result-mini"><div class="l">Value in 5 years</div><div class="v" id="roiOut-fv">—</div></div>
         </div>
       </div>
+    </div>
+    <div class="flow-nav flow-nav-end">
+      <button class="flow-btn flow-back" onclick="switchView('properties')">← Back: Properties</button>
+      <a href="roadmap.html" class="flow-btn flow-next">That's the tour — See the Roadmap →</a>
     </div>
   </section>
 
