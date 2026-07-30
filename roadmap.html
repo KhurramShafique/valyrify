@@ -61,10 +61,6 @@
   h1 em{font-style:italic; font-weight:400; color:var(--brass-deep);}
   .sub{margin-top:22px; font-size:1.05rem; color:var(--ink-dim); max-width:64ch; line-height:1.65;}
 
-  .legend{display:flex; gap:22px; margin-top:34px; flex-wrap:wrap;}
-  .legend-item{display:flex; align-items:center; gap:9px; font-family:'IBM Plex Mono',monospace; font-size:0.76rem; color:var(--ink-dim); text-transform:uppercase; letter-spacing:.04em;}
-  .legend-dot{width:9px; height:9px; border-radius:50%;}
-
   .timeline{margin-top:64px; position:relative;}
   .quarter-block{position:relative; padding-left:44px; padding-bottom:56px; border-left:1px solid var(--rule);}
   .quarter-block:last-child{padding-bottom:0; border-left:1px solid transparent;}
@@ -85,11 +81,6 @@
     color:var(--ink-dim); background:var(--paper-dim); padding:5px 10px; border-radius:20px; white-space:nowrap; flex-shrink:0; font-weight:600;
   }
   .feature-desc{color:var(--ink-dim); font-size:0.9rem; line-height:1.55;}
-  .stamp-soon{
-    display:inline-flex; align-items:center; gap:6px; background:var(--rust); color:#fff;
-    font-family:'IBM Plex Mono',monospace; font-size:0.66rem; text-transform:uppercase; letter-spacing:0.08em;
-    padding:6px 12px; border-radius:20px; margin-top:14px; font-weight:600;
-  }
 
   .cta-band{
     margin-top:80px; background:var(--dark); color:var(--cream); border-radius:16px; padding:44px;
@@ -126,7 +117,7 @@
     <div class="navlinks">
       <a href="index.html#modules">Modules</a>
       <a href="index.html#journey">Journey</a>
-      <a href="app.html">Launch App</a>
+      <a href="app.html?login=1">Login / Signup</a>
     </div>
     <a href="index.html" class="navtag">← Overview</a>
   </nav>
@@ -148,19 +139,14 @@
     <h1>Everything <em>after</em> this vision demo.</h1>
     <p class="sub">This demo runs entirely on sample data and mocked logic — by design. Below is exactly what turns each mocked piece into the real thing, ship by ship, over the four quarters following delivery.</p>
 
-    <div class="legend">
-      <div class="legend-item"><span class="legend-dot" style="background:var(--teal-fill);"></span> Live in this demo</div>
-      <div class="legend-item"><span class="legend-dot" style="background:var(--rust);"></span> Coming Soon — on this roadmap</div>
-    </div>
-
     <div class="timeline" id="timeline"></div>
 
     <div class="cta-band">
       <div>
         <h3>Want to see what's live today?</h3>
-        <p>Every module marked "Coming Soon" above already has a working, mocked version in the demo right now.</p>
+        <p>Every feature above already has a working, mocked version in the demo right now.</p>
       </div>
-      <a href="app.html" class="btn btn-primary">Launch the Demo →</a>
+      <a href="app.html?login=1" class="btn btn-primary">Login / Signup →</a>
     </div>
   </div>
 </main>
@@ -173,7 +159,7 @@
     <div class="foot-right">
       <a href="index.html">Overview</a>
       <a href="index.html#modules">Modules</a>
-      <a href="app.html">Launch App</a>
+      <a href="app.html?login=1">Login / Signup</a>
     </div>
   </div>
 </footer>
@@ -195,7 +181,7 @@
     ]},
     {q:"Q2 2027", items:[
       {name:'Enterprise reporting & custom dashboards', tag:'Admin Panel', desc:'White-labeled reports and configurable dashboard layouts for institutional and enterprise clients.'},
-      {name:'Third-party data integration (DLD, REIDIN, etc.)', tag:'Rental Intelligence', desc:'Pull live market comparables from established Dubai real estate data providers instead of the static dataset.'},
+      {name:'Third-party data integration (Land Registry, Rightmove, Zoopla, etc.)', tag:'Rental Intelligence', desc:'Pull live market comparables from established UK property data providers instead of the static dataset.'},
     ]},
   ];
   document.getElementById('timeline').innerHTML = roadmap.map(block => `
@@ -210,7 +196,6 @@
               <div class="feature-tag">${f.tag}</div>
             </div>
             <div class="feature-desc">${f.desc}</div>
-            <div class="stamp-soon">Coming Soon</div>
           </div>
         `).join('')}
       </div>

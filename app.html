@@ -127,19 +127,6 @@
     font-family:'IBM Plex Mono',monospace; font-size:.68rem; text-transform:uppercase; letter-spacing:.08em;
     padding:6px 12px; border-radius:20px; font-weight:600; margin-bottom:18px;
   }
-  .stamp-soon{
-    display:inline-flex; align-items:center; gap:6px; background:var(--rust); color:#fff;
-    font-family:'IBM Plex Mono',monospace; font-size:.68rem; text-transform:uppercase; letter-spacing:.08em;
-    padding:6px 12px; border-radius:20px; font-weight:600;
-  }
-  .soon-note{
-    display:inline-flex; align-items:center; gap:10px; background:rgba(180,80,47,0.08); border:1px solid rgba(180,80,47,0.22);
-    border-radius:8px; padding:10px 14px; margin-top:18px; font-size:.85rem; color:var(--ink-dim);
-  }
-  .soon-note-light{
-    display:flex; align-items:center; gap:10px; background:rgba(180,80,47,0.07); border:1px solid rgba(180,80,47,0.2);
-    border-radius:8px; padding:10px 14px; margin-top:16px; font-size:.83rem; color:var(--ink-dim);
-  }
   .detail-grid{display:grid; grid-template-columns:1fr 1fr; gap:14px; margin-bottom:22px;}
   .detail-item{background:var(--paper-dim); padding:12px 14px; border-radius:3px;}
   .detail-item .l{font-family:'IBM Plex Mono',monospace; font-size:.66rem; text-transform:uppercase; color:var(--ink-dim); letter-spacing:.05em;}
@@ -264,10 +251,6 @@
       <div class="eyebrow">Live · Sample Data</div>
       <h1>Portfolio overview</h1>
       <p>Key metrics across every tracked property, recalculated instantly as the portfolio changes.</p>
-      <div class="soon-note">
-        <span class="stamp-soon">Coming Soon</span>
-        <span>AI insights panel with predictive alerts, and multi-year historical trend analysis.</span>
-      </div>
     </div>
     <div class="kpi-grid" id="kpiGrid"></div>
     <div class="chart-grid">
@@ -294,10 +277,6 @@
       <div class="eyebrow">Live · Sample Data</div>
       <h1>Property list</h1>
       <p>Search, filter and sort the tracked portfolio. Click any row for valuation detail.</p>
-      <div class="soon-note">
-        <span class="stamp-soon">Coming Soon</span>
-        <span>Bulk CSV/Excel import and live third-party data feeds, replacing manual entry.</span>
-      </div>
     </div>
     <div class="filter-row">
       <input type="text" id="searchInput" placeholder="Search by name or location…">
@@ -317,7 +296,7 @@
             <th data-sort="name">Property</th>
             <th data-sort="type">Type</th>
             <th data-sort="price">Price</th>
-            <th data-sort="pricePerSqft">AED / Sqft</th>
+            <th data-sort="pricePerSqft">£ / Sqft</th>
             <th data-sort="rent">Monthly Rent</th>
             <th data-sort="yield">Yield</th>
             <th data-sort="status">Status</th>
@@ -337,16 +316,12 @@
       <div class="eyebrow">Live · Fully Functional</div>
       <h1>ROI &amp; investment calculator</h1>
       <p>Adjust any figure — results recalculate immediately.</p>
-      <div class="soon-note">
-        <span class="stamp-soon">Coming Soon</span>
-        <span>Multi-property scenario comparison — run this calculator across several properties side-by-side.</span>
-      </div>
     </div>
     <div class="roi-grid">
       <div class="roi-form">
         <div class="field">
           <label>Purchase price</label>
-          <div class="input-wrap"><input type="number" id="roiPrice" value="2100000"><span class="suffix">AED</span></div>
+          <div class="input-wrap"><input type="number" id="roiPrice" value="650000"><span class="suffix">£</span></div>
         </div>
         <div class="field-row">
           <div class="field">
@@ -355,26 +330,26 @@
           </div>
           <div class="field">
             <label>Interest rate</label>
-            <div class="input-wrap"><input type="number" id="roiRate" value="4.5" step="0.1"><span class="suffix">%</span></div>
+            <div class="input-wrap"><input type="number" id="roiRate" value="5.5" step="0.1"><span class="suffix">%</span></div>
           </div>
         </div>
         <div class="field-row">
           <div class="field">
             <label>Loan term</label>
-            <div class="input-wrap"><input type="number" id="roiTerm" value="20"><span class="suffix">yrs</span></div>
+            <div class="input-wrap"><input type="number" id="roiTerm" value="25"><span class="suffix">yrs</span></div>
           </div>
           <div class="field">
             <label>Appreciation (annual)</label>
-            <div class="input-wrap"><input type="number" id="roiAppr" value="4" step="0.1"><span class="suffix">%</span></div>
+            <div class="input-wrap"><input type="number" id="roiAppr" value="3" step="0.1"><span class="suffix">%</span></div>
           </div>
         </div>
         <div class="field">
           <label>Monthly rent</label>
-          <div class="input-wrap"><input type="number" id="roiRent" value="12000"><span class="suffix">AED</span></div>
+          <div class="input-wrap"><input type="number" id="roiRent" value="2800"><span class="suffix">£</span></div>
         </div>
         <div class="field">
           <label>Monthly expenses (mgmt, maintenance, vacancy allowance)</label>
-          <div class="input-wrap"><input type="number" id="roiExp" value="1500"><span class="suffix">AED</span></div>
+          <div class="input-wrap"><input type="number" id="roiExp" value="280"><span class="suffix">£</span></div>
         </div>
       </div>
       <div class="roi-results">
@@ -434,18 +409,18 @@ let editingId = null;
 let sortKey = null, sortDir = 1;
 
 let properties = [
-  {id:1, name:'Marina Vista Tower', location:'Dubai Marina', type:'Apartment', price:2100000, sqft:1150, rent:12000, status:'Occupied'},
-  {id:2, name:'Boulevard Point', location:'Downtown Dubai', type:'Apartment', price:2850000, sqft:1320, rent:15500, status:'Occupied'},
-  {id:3, name:'Miska Villa 12', location:'Arabian Ranches', type:'Villa', price:4650000, sqft:3400, rent:22000, status:'Vacant'},
-  {id:4, name:'Silicon Loft 8B', location:'Dubai Silicon Oasis', type:'Studio', price:620000, sqft:480, rent:4200, status:'Occupied'},
-  {id:5, name:'Furjan Terrace 3', location:'Al Furjan', type:'Townhouse', price:1980000, sqft:2100, rent:11500, status:'Occupied'},
-  {id:6, name:'Business Central 1904', location:'Business Bay', type:'Apartment', price:1750000, sqft:980, rent:10200, status:'Occupied'},
-  {id:7, name:'Palm Signature Villa', location:'Palm Jumeirah', type:'Villa', price:9200000, sqft:5200, rent:42000, status:'Occupied'},
-  {id:8, name:'Hills Grove 22', location:'Dubai Hills Estate', type:'Townhouse', price:3100000, sqft:2450, rent:16800, status:'Vacant'},
-  {id:9, name:'DIFC Executive Suite', location:'DIFC', type:'Apartment', price:2400000, sqft:1050, rent:13800, status:'Occupied'},
-  {id:10, name:'JVC Circle Homes 6', location:'Jumeirah Village Circle', type:'Apartment', price:980000, sqft:750, rent:6900, status:'Occupied'},
-  {id:11, name:'Motor City Residence 4', location:'Motor City', type:'Apartment', price:1150000, sqft:820, rent:7600, status:'Vacant'},
-  {id:12, name:'Ranches Meadow 9', location:'Arabian Ranches', type:'Villa', price:5400000, sqft:3900, rent:26500, status:'Occupied'},
+  {id:1, name:'Riverside Apartments', location:'Canary Wharf, London', type:'Apartment', price:650000, sqft:850, rent:2800, status:'Occupied'},
+  {id:2, name:'Northern Quarter Lofts', location:'Manchester City Centre', type:'Apartment', price:285000, sqft:720, rent:1450, status:'Occupied'},
+  {id:3, name:'Ashfield House', location:'New Town, Edinburgh', type:'Apartment', price:395000, sqft:900, rent:1650, status:'Vacant'},
+  {id:4, name:'Harborne Heights', location:'Harborne, Birmingham', type:'Apartment', price:210000, sqft:650, rent:1050, status:'Occupied'},
+  {id:5, name:'Clifton Village Townhouse', location:'Clifton, Bristol', type:'Townhouse', price:520000, sqft:1450, rent:2100, status:'Occupied'},
+  {id:6, name:'Headingley Student Court', location:'Headingley, Leeds', type:'Studio', price:145000, sqft:420, rent:850, status:'Occupied'},
+  {id:7, name:'Kensington Garden Villa', location:'Kensington, London', type:'Villa', price:2850000, sqft:3200, rent:9500, status:'Occupied'},
+  {id:8, name:'Salford Quays Residence', location:'Salford Quays, Manchester', type:'Apartment', price:245000, sqft:680, rent:1300, status:'Vacant'},
+  {id:9, name:'Jesmond Terrace', location:'Jesmond, Newcastle', type:'Townhouse', price:310000, sqft:1350, rent:1500, status:'Occupied'},
+  {id:10, name:'Cathays Court', location:'Cathays, Cardiff', type:'Apartment', price:165000, sqft:600, rent:950, status:'Occupied'},
+  {id:11, name:'Meadowhall View', location:'Meadowhall, Sheffield', type:'Apartment', price:155000, sqft:580, rent:875, status:'Vacant'},
+  {id:12, name:'Richmond Riverside', location:'Richmond, London', type:'Apartment', price:780000, sqft:950, rent:3100, status:'Occupied'},
 ];
 let nextId = 13;
 
@@ -453,11 +428,11 @@ function withMetrics(p){
   const annualRent = p.rent*12;
   return {...p, yield: +(annualRent/p.price*100).toFixed(2), pricePerSqft: Math.round(p.price/p.sqft)};
 }
-function fmtAED(n){ return 'AED ' + Math.round(n).toLocaleString(); }
-function fmtAEDShort(n){
-  if(n>=1000000) return 'AED ' + (n/1000000).toFixed(2)+'M';
-  if(n>=1000) return 'AED ' + (n/1000).toFixed(0)+'K';
-  return 'AED '+Math.round(n);
+function fmtGBP(n){ return '£' + Math.round(n).toLocaleString(); }
+function fmtGBPShort(n){
+  if(n>=1000000) return '£' + (n/1000000).toFixed(2)+'M';
+  if(n>=1000) return '£' + (n/1000).toFixed(0)+'K';
+  return '£'+Math.round(n);
 }
 
 document.getElementById('tabs').addEventListener('click', e=>{
@@ -524,9 +499,9 @@ function renderDashboard(){
 
   document.getElementById('kpiGrid').innerHTML = `
     <div class="kpi-card"><div class="kpi-label">Average Yield</div><div class="kpi-value">${avgYield.toFixed(2)}%</div><div class="kpi-sub">across ${list.length} properties</div></div>
-    <div class="kpi-card" style="border-color:var(--brass)"><div class="kpi-label">Total Portfolio Value</div><div class="kpi-value">${fmtAEDShort(totalValue)}</div><div class="kpi-sub" style="color:var(--brass)">sample data</div></div>
+    <div class="kpi-card" style="border-color:var(--brass)"><div class="kpi-label">Total Portfolio Value</div><div class="kpi-value">${fmtGBPShort(totalValue)}</div><div class="kpi-sub" style="color:var(--brass)">sample data</div></div>
     <div class="kpi-card" style="border-color:var(--rust)"><div class="kpi-label">Occupancy Rate</div><div class="kpi-value">${occupancyRate.toFixed(0)}%</div><div class="kpi-sub" style="color:var(--rust)">${occupiedCount}/${list.length} occupied</div></div>
-    <div class="kpi-card"><div class="kpi-label">Avg Price / Sqft</div><div class="kpi-value">${Math.round(avgPsf).toLocaleString()}</div><div class="kpi-sub">AED per sqft</div></div>
+    <div class="kpi-card"><div class="kpi-label">Avg Price / Sqft</div><div class="kpi-value">£${Math.round(avgPsf).toLocaleString()}</div><div class="kpi-sub">per sqft</div></div>
   `;
 
   const trendLabels = ["Q4 '24","Q1 '25","Q2 '25","Q3 '25","Q4 '25","Q1 '26","Q2 '26","Q3 '26"];
@@ -587,9 +562,9 @@ function renderProperties(){
     <tr onclick="openPropertyModal(${p.id})">
       <td><div class="pname">${p.name}</div><div class="ploc">${p.location}</div></td>
       <td>${p.type}</td>
-      <td>${fmtAED(p.price)}</td>
+      <td>${fmtGBP(p.price)}</td>
       <td>${p.pricePerSqft.toLocaleString()}</td>
-      <td>${fmtAED(p.rent)}</td>
+      <td>${fmtGBP(p.rent)}</td>
       <td class="yield-val">${p.yield}%</td>
       <td><span class="status-pill ${p.status==='Occupied'?'status-occupied':'status-vacant'}">${p.status}</span></td>
     </tr>
@@ -621,24 +596,20 @@ function openPropertyModal(id){
     <div class="ploc">${p.location} · ${p.type}</div>
     <div class="stamp-inline">Live AI · Mocked Output</div>
     <div class="detail-grid">
-      <div class="detail-item"><div class="l">Listed Price</div><div class="v">${fmtAED(p.price)}</div></div>
+      <div class="detail-item"><div class="l">Listed Price</div><div class="v">${fmtGBP(p.price)}</div></div>
       <div class="detail-item"><div class="l">Size</div><div class="v">${p.sqft.toLocaleString()} sqft</div></div>
-      <div class="detail-item"><div class="l">Monthly Rent</div><div class="v">${fmtAED(p.rent)}</div></div>
+      <div class="detail-item"><div class="l">Monthly Rent</div><div class="v">${fmtGBP(p.rent)}</div></div>
       <div class="detail-item"><div class="l">Gross Yield</div><div class="v">${p.yield}%</div></div>
     </div>
     <div class="valuation-box">
       <div class="l">AI-Estimated Valuation</div>
-      <div class="v">${fmtAED(valuation)}</div>
+      <div class="v">${fmtGBP(valuation)}</div>
       <div class="note">${valuation>p.price ? '+' : ''}${(((valuation-p.price)/p.price)*100).toFixed(1)}% vs. listed price · generated from mocked smart-logic, not a live model</div>
     </div>
     <div class="rent-compare">
       <div class="l" style="font-family:'IBM Plex Mono',monospace; font-size:.7rem; text-transform:uppercase; color:var(--ink-dim); letter-spacing:.05em;">Rent vs. Market Average</div>
-      <div class="rent-bar-row"><span style="width:70px;">This unit</span><div class="rent-bar-track"><div class="rent-bar-fill" style="width:${yourPct}%; background:var(--teal-fill);"></div></div><span>${fmtAED(p.rent)}</span></div>
-      <div class="rent-bar-row"><span style="width:70px;">Market avg</span><div class="rent-bar-track"><div class="rent-bar-fill" style="width:${marketPct}%; background:var(--brass);"></div></div><span>${fmtAED(marketRent)}</span></div>
-    </div>
-    <div class="soon-note-light">
-      <span class="stamp-soon">Coming Soon</span>
-      <span>Live AI valuation via connected model, plus third-party comparables from DLD/REIDIN. See the <a href="roadmap.html" style="color:var(--rust); text-decoration:underline;">full roadmap</a>.</span>
+      <div class="rent-bar-row"><span style="width:70px;">This unit</span><div class="rent-bar-track"><div class="rent-bar-fill" style="width:${yourPct}%; background:var(--teal-fill);"></div></div><span>${fmtGBP(p.rent)}</span></div>
+      <div class="rent-bar-row"><span style="width:70px;">Market avg</span><div class="rent-bar-track"><div class="rent-bar-fill" style="width:${marketPct}%; background:var(--brass);"></div></div><span>${fmtGBP(marketRent)}</span></div>
     </div>
   `;
   document.getElementById('propModalOverlay').classList.add('show');
@@ -672,13 +643,13 @@ function calcROI(){
 
   document.getElementById('roiOut-roi').textContent = (isFinite(cashOnCash)?cashOnCash.toFixed(2):'0.00')+'%';
   const cfEl = document.getElementById('roiOut-cashflow');
-  cfEl.textContent = fmtAED(monthlyCF); cfEl.classList.toggle('neg', monthlyCF<0);
+  cfEl.textContent = fmtGBP(monthlyCF); cfEl.classList.toggle('neg', monthlyCF<0);
   const acfEl = document.getElementById('roiOut-annualcf');
-  acfEl.textContent = fmtAED(annualCF); acfEl.classList.toggle('neg', annualCF<0);
-  document.getElementById('roiOut-mortgage').textContent = fmtAED(mortgage);
+  acfEl.textContent = fmtGBP(annualCF); acfEl.classList.toggle('neg', annualCF<0);
+  document.getElementById('roiOut-mortgage').textContent = fmtGBP(mortgage);
   document.getElementById('roiOut-cap').textContent = (isFinite(capRate)?capRate.toFixed(2):'0.00')+'%';
   document.getElementById('roiOut-payback').textContent = payback ? payback.toFixed(1)+' yrs' : '—';
-  document.getElementById('roiOut-fv').textContent = fmtAEDShort(fv);
+  document.getElementById('roiOut-fv').textContent = fmtGBPShort(fv);
 }
 
 function renderAdmin(){
@@ -697,26 +668,22 @@ function renderAdmin(){
       <div class="eyebrow">Live · Full CRUD</div>
       <h1>Admin panel</h1>
       <p>Add, edit, or remove properties. Changes reflect instantly in the Dashboard and Property list.</p>
-      <div class="soon-note">
-        <span class="stamp-soon">Coming Soon</span>
-        <span>Audit logs, advanced reporting, and subscription/billing management.</span>
-      </div>
     </div>
     <div class="admin-layout">
       <div class="admin-form-card">
         <h3 id="adminFormTitle">Add Property</h3>
         <div class="field"><label>Name</label><input id="af-name" type="text" placeholder="e.g. Skyline Residence 4"></div>
-        <div class="field"><label>Location</label><input id="af-location" type="text" placeholder="e.g. Dubai Marina"></div>
+        <div class="field"><label>Location</label><input id="af-location" type="text" placeholder="e.g. Canary Wharf, London"></div>
         <div class="field">
           <label>Type</label>
           <select id="af-type"><option>Apartment</option><option>Villa</option><option>Townhouse</option><option>Studio</option></select>
         </div>
         <div class="field-row">
-          <div class="field"><label>Price (AED)</label><input id="af-price" type="number"></div>
+          <div class="field"><label>Price (£)</label><input id="af-price" type="number"></div>
           <div class="field"><label>Sqft</label><input id="af-sqft" type="number"></div>
         </div>
         <div class="field-row">
-          <div class="field"><label>Monthly Rent (AED)</label><input id="af-rent" type="number"></div>
+          <div class="field"><label>Monthly Rent (£)</label><input id="af-rent" type="number"></div>
           <div class="field">
             <label>Status</label>
             <select id="af-status"><option>Occupied</option><option>Vacant</option></select>
@@ -742,8 +709,8 @@ function renderAdminTable(){
     <tr>
       <td><div class="pname">${p.name}</div><div class="ploc">${p.location}</div></td>
       <td>${p.type}</td>
-      <td>${fmtAED(p.price)}</td>
-      <td>${fmtAED(p.rent)}</td>
+      <td>${fmtGBP(p.price)}</td>
+      <td>${fmtGBP(p.rent)}</td>
       <td><span class="status-pill ${p.status==='Occupied'?'status-occupied':'status-vacant'}">${p.status}</span></td>
       <td class="actions">
         <button class="icon-btn" onclick="editProperty(${p.id})">Edit</button>
@@ -814,6 +781,9 @@ calcROI();
 updateRoleUI();
 const initialView = location.hash.replace('#','');
 if(validViews.includes(initialView)) switchView(initialView, true);
+if(new URLSearchParams(location.search).get('login') === '1'){
+  document.getElementById('loginOverlay').classList.add('show');
+}
 </script>
 </body>
 </html>
