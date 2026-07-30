@@ -35,7 +35,8 @@
 
   header{position:sticky; top:0; z-index:50; background:rgba(23,24,27,0.96); backdrop-filter:blur(6px); border-bottom:1px solid var(--rule-dark);}
   nav.wrap{display:flex; align-items:center; justify-content:space-between; height:64px; gap:20px;}
-  .logo-block{display:flex; align-items:center; gap:10px; flex-shrink:0;}
+  .logo-block{display:flex; align-items:center; gap:10px; flex-shrink:0; text-decoration:none; transition:opacity .2s;}
+  .logo-block:hover{opacity:0.8;}
   .logo-img{height:32px; width:auto; display:block;}
   .logo-tag{font-family:'IBM Plex Mono',monospace; font-size:.68rem; letter-spacing:.06em; text-transform:uppercase; color:var(--cream-dim); border-left:1px solid var(--rule-dark); padding-left:10px;}
   .tabs{display:flex; gap:4px; flex:1; overflow-x:auto;}
@@ -53,8 +54,8 @@
   .nav-right{display:flex; align-items:center; gap:12px; flex-shrink:0;}
   .role-badge{font-family:'IBM Plex Mono',monospace; font-size:.7rem; letter-spacing:.06em; text-transform:uppercase; padding:6px 11px; border-radius:20px; border:1px solid var(--rule-dark); color:var(--cream-dim);}
   .role-badge.admin{border-color:var(--teal-fill); color:var(--teal-dim);}
-  .signin-btn{font-family:'IBM Plex Mono',monospace; font-size:.76rem; text-transform:uppercase; letter-spacing:.05em; background:var(--brass); color:var(--bg-deep); border:none; padding:9px 16px; border-radius:20px; font-weight:600;}
-  .signin-btn:hover{background:var(--brass-light);}
+  .signin-btn{font-family:'IBM Plex Mono',monospace; font-size:.76rem; text-transform:uppercase; letter-spacing:.05em; background:var(--brass); color:var(--bg-deep); border:none; padding:9px 16px; border-radius:20px; font-weight:600; transition:all .2s; cursor:pointer;}
+  .signin-btn:hover{background:var(--brass-light); transform:translateY(-1px); box-shadow:0 4px 12px rgba(201,162,39,0.35);}
 
   main{max-width:1220px; margin:0 auto; padding:40px 32px 100px;}
   .view{display:none;}
@@ -68,7 +69,10 @@
   .page-head p{color:var(--ink-dim); margin-top:8px; max-width:60ch;}
 
   .kpi-grid{display:grid; grid-template-columns:repeat(4,1fr); gap:16px; margin-bottom:36px;}
-  .kpi-card{background:var(--paper); color:var(--ink); border-radius:12px; padding:22px; border:1px solid var(--rule); box-shadow:var(--shadow);}
+  .kpi-card{background:var(--paper); color:var(--ink); border-radius:12px; padding:22px; border:1px solid var(--rule); box-shadow:var(--shadow); transition:transform .2s, box-shadow .2s;}
+  .kpi-card:hover{transform:translateY(-2px); box-shadow:0 4px 10px rgba(28,24,10,0.06), 0 14px 34px rgba(28,24,10,0.1);}
+  .kpi-flex{display:flex; align-items:center; justify-content:space-between; gap:14px;}
+  .kpi-donut-wrap{width:60px; height:60px; flex-shrink:0; cursor:pointer;}
   .kpi-label{font-family:'IBM Plex Mono',monospace; font-size:.7rem; letter-spacing:.08em; text-transform:uppercase; color:var(--ink-dim);}
   .kpi-value{font-family:'Fraunces',serif; font-size:1.9rem; font-weight:500; margin-top:8px;}
   .kpi-sub{font-family:'IBM Plex Mono',monospace; font-size:.72rem; color:var(--teal); margin-top:6px;}
@@ -104,7 +108,8 @@
   .modal-overlay{position:fixed; inset:0; background:rgba(14,15,17,0.72); display:none; align-items:center; justify-content:center; z-index:200; padding:24px;}
   .modal-overlay.show{display:flex;}
   .modal{background:var(--paper); color:var(--ink); width:100%; max-width:560px; border-radius:14px; padding:32px; max-height:88vh; overflow-y:auto; position:relative; box-shadow:0 20px 60px rgba(0,0,0,0.3);}
-  .modal-close{position:absolute; top:18px; right:18px; background:none; border:none; font-size:1.3rem; color:var(--ink-dim); line-height:1;}
+  .modal-close{position:absolute; top:18px; right:18px; background:none; border:none; font-size:1.3rem; color:var(--ink-dim); line-height:1; padding:6px 9px; border-radius:6px; transition:all .2s;}
+  .modal-close:hover{color:var(--ink); background:rgba(28,28,28,0.06);}
   .modal h2{font-family:'Fraunces',serif; font-weight:500; font-size:1.4rem; margin-bottom:4px;}
   .modal .ploc{margin-bottom:20px;}
   .stamp-inline{
@@ -171,12 +176,12 @@
   .form-actions{display:flex; gap:10px; margin-top:6px;}
   .btn{font-family:'IBM Plex Mono',monospace; font-size:.78rem; letter-spacing:.05em; text-transform:uppercase; padding:11px 18px; border-radius:3px; border:1px solid transparent; transition:all .2s;}
   .btn-primary{background:var(--teal-fill); color:#fff; font-weight:600;}
-  .btn-primary:hover{background:#256153;}
+  .btn-primary:hover{background:#256153; transform:translateY(-1px); box-shadow:0 6px 16px rgba(46,150,160,0.3);}
   .btn-ghost{background:none; border-color:rgba(28,28,28,0.2); color:var(--ink);}
   .btn-ghost:hover{border-color:var(--ink);}
   .admin-table-wrap table td.actions{display:flex; gap:8px;}
-  .icon-btn{background:none; border:1px solid rgba(28,28,28,0.15); border-radius:3px; padding:6px 10px; font-size:.78rem; color:var(--ink);}
-  .icon-btn:hover{border-color:var(--teal); color:var(--teal);}
+  .icon-btn{background:none; border:1px solid rgba(28,28,28,0.15); border-radius:3px; padding:6px 10px; font-size:.78rem; color:var(--ink); transition:all .2s; cursor:pointer;}
+  .icon-btn:hover{border-color:var(--teal); color:var(--teal); transform:translateY(-1px);}
   .icon-btn.danger:hover{border-color:var(--rust); color:var(--rust);}
 
   /* Flow nav within a view */
@@ -190,18 +195,94 @@
   .flow-back{background:none; border-color:var(--rule); color:var(--ink-dim);}
   .flow-back:hover{border-color:var(--ink); color:var(--ink);}
   .flow-next{background:var(--brass); color:var(--dark-deep); font-weight:600; border-color:var(--brass);}
-  .flow-next:hover{background:var(--brass-deep); color:#fff;}
+  .flow-next:hover{background:var(--brass-deep); color:#fff; transform:translateY(-1px); box-shadow:0 6px 16px rgba(201,162,39,0.3);}
 
   .denied-card{background:var(--paper); color:var(--ink); border-radius:14px; padding:48px; text-align:center; max-width:480px; margin:60px auto; border:1px solid var(--rule); box-shadow:var(--shadow);}
   .denied-stamp{display:inline-block; background:var(--rust); color:#fff; font-family:'IBM Plex Mono',monospace; font-size:.8rem; text-transform:uppercase; letter-spacing:.08em; padding:10px 20px; border-radius:20px; margin-bottom:20px; font-weight:600;}
   .denied-card p{color:var(--ink-dim); margin-bottom:20px;}
+  /* Full-screen split login/signup — matches reference design */
+  .login-overlay{display:none; position:fixed; inset:0; z-index:500; flex-direction:column; background:var(--paper);}
+  .login-overlay.show{display:flex;}
+  .login-close{
+    position:absolute; top:56px; right:20px; z-index:502; background:var(--paper); border:1px solid var(--rule); color:var(--ink-dim);
+    font-size:1.4rem; line-height:1; width:34px; height:34px; border-radius:50%; display:flex; align-items:center; justify-content:center;
+    transition:all .2s; box-shadow:var(--shadow);
+  }
+  .login-close:hover{color:var(--ink); border-color:var(--ink);}
 
-  .login-card{max-width:400px;}
-  .role-options{display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-top:20px;}
-  .role-opt{border:1.5px solid rgba(28,28,28,0.2); border-radius:5px; padding:18px 14px; text-align:center; background:#fff;}
-  .role-opt:hover{border-color:var(--teal);}
-  .role-opt .ic{font-family:'Fraunces',serif; font-size:1.3rem; margin-bottom:6px;}
-  .role-opt .d{font-size:.76rem; color:var(--ink-dim);}
+  .login-banner{
+    background:var(--dark-deep); color:var(--cream-dim); padding:11px 24px; display:flex; justify-content:space-between;
+    align-items:center; gap:16px; flex-wrap:wrap; font-size:.82rem; flex-shrink:0;
+  }
+  .lb-badge{background:var(--brass); color:var(--dark-deep); font-family:'IBM Plex Mono',monospace; font-size:.65rem; font-weight:700; letter-spacing:.06em; padding:3px 9px; border-radius:10px; margin-right:8px; text-transform:uppercase;}
+  .lb-left b, .lb-left{color:var(--cream-dim);}
+  .lb-right{display:flex; align-items:center; gap:18px; flex-wrap:wrap;}
+  .lb-right a{color:var(--cream-dim); transition:color .2s;}
+  .lb-right a:hover{color:#fff;}
+  .lb-cta{font-weight:600; color:var(--brass-light) !important;}
+  .lb-close{background:none; border:none; color:var(--cream-dim); font-size:1.1rem; padding:2px 6px; border-radius:4px; transition:all .2s;}
+  .lb-close:hover{color:#fff; background:rgba(255,255,255,0.1);}
+
+  .login-body{flex:1; display:flex; overflow:auto;}
+  .login-left{
+    flex:0 0 42%; background:var(--dark); color:var(--cream); padding:56px 48px; display:flex; flex-direction:column;
+    justify-content:space-between; min-width:340px;
+  }
+  .login-logo{height:34px; width:auto;}
+  .login-quote{
+    font-family:'Fraunces',serif; font-style:italic; font-weight:400; font-size:1.4rem; line-height:1.5;
+    border-left:3px solid var(--brass); padding-left:20px; margin:40px 0;
+  }
+  .login-stats{display:grid; grid-template-columns:1fr 1fr; gap:14px;}
+  .login-stat{border:1px solid var(--rule-dark); border-radius:10px; padding:16px 18px; transition:all .2s;}
+  .login-stat:hover{border-color:var(--brass); background:rgba(201,162,39,0.06);}
+  .ls-num{font-family:'Fraunces',serif; font-weight:700; font-size:1.5rem; color:var(--brass-light);}
+  .ls-label{font-family:'IBM Plex Mono',monospace; font-size:.72rem; color:var(--cream-dim); margin-top:2px;}
+  .login-copyright{font-size:.76rem; color:var(--cream-dim); margin-top:40px;}
+
+  .login-right{flex:1; display:flex; align-items:center; justify-content:center; padding:40px 24px;}
+  .login-form-wrap{width:100%; max-width:380px;}
+  .login-form-wrap h2{font-family:'Fraunces',serif; font-weight:600; font-size:1.9rem; color:var(--ink);}
+  .login-sub{color:var(--ink-dim); font-size:.92rem; margin-top:6px; margin-bottom:28px;}
+  .login-label{display:block; font-size:.85rem; font-weight:600; color:var(--ink); margin-bottom:6px;}
+  .login-input{
+    width:100%; padding:12px 14px; border:1px solid rgba(28,28,28,0.15); background:var(--paper-dim); color:var(--ink);
+    border-radius:8px; font-size:.92rem; font-family:'Inter',sans-serif; margin-bottom:18px; transition:all .2s;
+  }
+  .login-input:focus{outline:none; border-color:var(--brass); background:#fff; box-shadow:0 0 0 3px rgba(201,162,39,0.12);}
+  .login-row{display:flex; justify-content:space-between; align-items:baseline;}
+  .login-forgot{font-size:.82rem; color:var(--brass-deep); transition:color .2s;}
+  .login-forgot:hover{color:var(--rust); text-decoration:underline;}
+  .login-pw-wrap{position:relative;}
+  .login-pw-wrap .login-input{padding-right:44px;}
+  .login-eye{position:absolute; right:10px; top:12px; background:none; border:none; font-size:1rem; opacity:.55; padding:4px; border-radius:5px; transition:all .2s;}
+  .login-eye:hover{opacity:1; background:rgba(28,28,28,0.06);}
+
+  .login-role-row{display:flex; align-items:center; gap:10px; margin:6px 0 22px;}
+  .login-role-label{font-size:.8rem; color:var(--ink-dim); margin-right:2px;}
+  .login-role-pill{
+    font-family:'IBM Plex Mono',monospace; font-size:.75rem; padding:7px 14px; border-radius:20px; border:1.5px solid rgba(28,28,28,0.15);
+    background:#fff; color:var(--ink-dim); transition:all .2s; font-weight:600;
+  }
+  .login-role-pill:hover{border-color:var(--teal-fill); color:var(--teal);}
+  .login-role-pill.active{background:var(--teal-fill); border-color:var(--teal-fill); color:#fff;}
+
+  .login-submit{
+    width:100%; padding:14px; border:none; border-radius:8px; background:var(--brass); color:var(--dark-deep);
+    font-family:'IBM Plex Mono',monospace; font-weight:700; font-size:.9rem; letter-spacing:.03em; text-transform:uppercase;
+    transition:all .2s; box-shadow:0 2px 4px rgba(201,162,39,0.15);
+  }
+  .login-submit:hover{background:var(--brass-deep); color:#fff; transform:translateY(-1px); box-shadow:0 6px 16px rgba(201,162,39,0.35);}
+  .login-submit:active{transform:translateY(0);}
+  .login-alt{text-align:center; font-size:.86rem; color:var(--ink-dim); margin-top:20px;}
+  .login-alt a{color:var(--brass-deep); font-weight:600; transition:color .2s;}
+  .login-alt a:hover{color:var(--rust); text-decoration:underline;}
+
+  @media (max-width:820px){
+    .login-body{flex-direction:column;}
+    .login-left{flex:none; padding:36px 28px;}
+    .login-quote{margin:24px 0;}
+  }
 
   #toast{position:fixed; bottom:28px; left:50%; transform:translateX(-50%) translateY(20px); background:var(--paper); color:var(--ink); font-family:'IBM Plex Mono',monospace; font-size:.82rem; padding:14px 22px; border-radius:3px; border-left:4px solid var(--teal); opacity:0; pointer-events:none; transition:all .3s ease; z-index:300; max-width:90vw; text-align:center; box-shadow:0 10px 30px rgba(0,0,0,.3);}
   #toast.show{opacity:1; transform:translateX(-50%) translateY(0);}
@@ -228,12 +309,10 @@
 
 <header>
   <nav class="wrap">
-    <div class="logo-block">
-      <a href="https://www.valyrify.com">
-        <img src="assets/valyrify-logo-light.png" alt="VALYRIFY" class="logo-img">
-        <span class="logo-tag">Property Intelligence</span>
-      </a>
-    </div>
+    <a href="index.html" class="logo-block">
+      <img src="assets/valyrify-logo-light.png" alt="VALYRIFY" class="logo-img">
+      <span class="logo-tag">Property Intelligence</span>
+    </a>
     <div class="tabs" id="tabs">
       <button class="tab active" data-view="dashboard"><span class="tab-num">1</span> Dashboard</button>
       <button class="tab" data-view="properties"><span class="tab-num">2</span> Properties</button>
@@ -369,6 +448,10 @@
           <div class="result-mini"><div class="l">Payback period</div><div class="v" id="roiOut-payback">—</div></div>
           <div class="result-mini"><div class="l">Value in 5 years</div><div class="v" id="roiOut-fv">—</div></div>
         </div>
+        <div class="chart-card">
+          <h3>Where your rent goes</h3>
+          <div class="canvas-wrap" style="height:180px;"><canvas id="roiBreakdownChart"></canvas></div>
+        </div>
       </div>
     </div>
 
@@ -472,19 +555,57 @@
   <div class="modal" id="propModalBody"></div>
 </div>
 
-<div class="modal-overlay" id="loginOverlay">
-  <div class="modal login-card">
-    <button class="modal-close" onclick="closeLogin()">×</button>
-    <h2>Sign in</h2>
-    <p class="ploc">Choose a role to preview role-based access.</p>
-    <div class="role-options">
-      <div class="role-opt" style="cursor:pointer" onclick="signIn('viewer')">
-        <div class="ic">Viewer</div>
-        <div class="d">Browse dashboard, properties &amp; ROI tool</div>
+<div class="login-overlay" id="loginOverlay">
+  <button class="login-close" onclick="closeLogin()" aria-label="Close">×</button>
+
+  <div class="login-banner" id="loginBanner">
+    <div class="lb-left"><span class="lb-badge">BETA</span> VALYRIFY is launching soon. This is a working prototype — advanced features will roll out during extended development.</div>
+    <div class="lb-right">
+      <a href="mailto:info@valyrify.io">✉ info@valyrify.io</a>
+      <a href="roadmap.html" class="lb-cta">Join the UK Beta →</a>
+      <button class="lb-close" onclick="document.getElementById('loginBanner').style.display='none'" aria-label="Dismiss">×</button>
+    </div>
+  </div>
+
+  <div class="login-body">
+    <div class="login-left">
+      <img src="assets/valyrify-logo-light.png" alt="VALYRIFY" class="login-logo">
+      <blockquote class="login-quote">"Understand true property value, rental yield, and investment ROI — all in one place."</blockquote>
+      <div class="login-stats">
+        <div class="login-stat"><div class="ls-num">360°</div><div class="ls-label">Portfolio Visibility</div></div>
+        <div class="login-stat"><div class="ls-num">AI</div><div class="ls-label">Valuation Insights</div></div>
+        <div class="login-stat"><div class="ls-num">ROI</div><div class="ls-label">Live Calculator</div></div>
+        <div class="login-stat"><div class="ls-num">UK</div><div class="ls-label">Market Data</div></div>
       </div>
-      <div class="role-opt" style="cursor:pointer" onclick="signIn('admin')">
-        <div class="ic">Admin</div>
-        <div class="d">Full access, incl. property CRUD</div>
+      <p class="login-copyright">© 2026 VALYRIFY Ltd. All rights reserved.</p>
+    </div>
+
+    <div class="login-right">
+      <div class="login-form-wrap">
+        <h2>Welcome back</h2>
+        <p class="login-sub">Sign in to your property intelligence dashboard.</p>
+
+        <label class="login-label" for="loginEmail">Email</label>
+        <input type="email" id="loginEmail" class="login-input" value="admin@valyrify.local">
+
+        <div class="login-row">
+          <label class="login-label" for="loginPassword">Password</label>
+          <a href="#" class="login-forgot" onclick="showToast('Not available in this demo.'); return false;">Forgot password?</a>
+        </div>
+        <div class="login-pw-wrap">
+          <input type="password" id="loginPassword" class="login-input" value="valyrify2026">
+          <button type="button" class="login-eye" onclick="togglePw()" aria-label="Show password">👁</button>
+        </div>
+
+        <div class="login-role-row">
+          <span class="login-role-label">Sign in as:</span>
+          <button type="button" class="login-role-pill active" id="roleViewerBtn" onclick="selectRole('viewer')">Viewer</button>
+          <button type="button" class="login-role-pill" id="roleAdminBtn" onclick="selectRole('admin')">Admin</button>
+        </div>
+
+        <button class="login-submit" id="loginSubmitBtn" onclick="doSignIn()">Sign In</button>
+
+        <p class="login-alt">Don't have an account? <a href="#" onclick="doSignIn(true); return false;">Start free trial</a></p>
       </div>
     </div>
   </div>
@@ -536,6 +657,8 @@ function switchView(name, skipHash){
   document.querySelectorAll('.view').forEach(v=>v.classList.toggle('active', v.id==='view-'+name));
   if(!skipHash) history.replaceState(null, '', '#'+name);
   if(name==='admin') renderAdmin();
+  if(name==='roi') calcROI();
+  if(name==='dashboard') renderDashboard();
 }
 window.addEventListener('hashchange', ()=>{
   const v = location.hash.replace('#','');
@@ -547,6 +670,23 @@ document.getElementById('signinBtn').addEventListener('click', ()=>{
   document.getElementById('loginOverlay').classList.add('show');
 });
 function closeLogin(){ document.getElementById('loginOverlay').classList.remove('show'); }
+let selectedRole = 'viewer';
+function selectRole(r){
+  selectedRole = r;
+  document.getElementById('roleViewerBtn').classList.toggle('active', r==='viewer');
+  document.getElementById('roleAdminBtn').classList.toggle('active', r==='admin');
+}
+function togglePw(){
+  const input = document.getElementById('loginPassword');
+  const btn = document.querySelector('.login-eye');
+  const showing = input.type === 'text';
+  input.type = showing ? 'password' : 'text';
+  btn.textContent = showing ? '👁' : '🙈';
+  btn.setAttribute('aria-label', showing ? 'Show password' : 'Hide password');
+}
+function doSignIn(isTrial){
+  signIn(isTrial ? 'viewer' : selectedRole);
+}
 function signIn(r){
   role = r;
   updateRoleUI();
@@ -578,6 +718,7 @@ function showToast(msg){
 }
 
 let chartTrend, chartOccupancy, chartYield;
+let kpiDonutYield, kpiDonutValue, kpiDonutOcc, kpiDonutCity, roiBreakdownChart;
 function renderDashboard(){
   const list = properties.map(withMetrics);
   const avgYield = list.reduce((s,p)=>s+p.yield,0)/list.length;
@@ -587,11 +728,49 @@ function renderDashboard(){
   const avgPsf = list.reduce((s,p)=>s+p.pricePerSqft,0)/list.length;
 
   document.getElementById('kpiGrid').innerHTML = `
-    <div class="kpi-card"><div class="kpi-label">Average Yield</div><div class="kpi-value">${avgYield.toFixed(2)}%</div><div class="kpi-sub">across ${list.length} properties</div></div>
-    <div class="kpi-card" style="border-color:var(--brass)"><div class="kpi-label">Total Portfolio Value</div><div class="kpi-value">${fmtGBPShort(totalValue)}</div><div class="kpi-sub" style="color:var(--brass)">sample data</div></div>
-    <div class="kpi-card" style="border-color:var(--rust)"><div class="kpi-label">Occupancy Rate</div><div class="kpi-value">${occupancyRate.toFixed(0)}%</div><div class="kpi-sub" style="color:var(--rust)">${occupiedCount}/${list.length} occupied</div></div>
-    <div class="kpi-card"><div class="kpi-label">Avg Price / Sqft</div><div class="kpi-value">£${Math.round(avgPsf).toLocaleString()}</div><div class="kpi-sub">per sqft</div></div>
+    <div class="kpi-card kpi-flex"><div><div class="kpi-label">Average Yield</div><div class="kpi-value">${avgYield.toFixed(2)}%</div><div class="kpi-sub">across ${list.length} properties</div></div><div class="kpi-donut-wrap"><canvas id="kpiDonutYield"></canvas></div></div>
+    <div class="kpi-card kpi-flex" style="border-color:var(--brass)"><div><div class="kpi-label">Total Portfolio Value</div><div class="kpi-value">${fmtGBPShort(totalValue)}</div><div class="kpi-sub" style="color:var(--brass)">by property type</div></div><div class="kpi-donut-wrap"><canvas id="kpiDonutValue"></canvas></div></div>
+    <div class="kpi-card kpi-flex" style="border-color:var(--rust)"><div><div class="kpi-label">Occupancy Rate</div><div class="kpi-value">${occupancyRate.toFixed(0)}%</div><div class="kpi-sub" style="color:var(--rust)">${occupiedCount}/${list.length} occupied</div></div><div class="kpi-donut-wrap"><canvas id="kpiDonutOcc"></canvas></div></div>
+    <div class="kpi-card kpi-flex"><div><div class="kpi-label">Avg Price / Sqft</div><div class="kpi-value">£${Math.round(avgPsf).toLocaleString()}</div><div class="kpi-sub">by city</div></div><div class="kpi-donut-wrap"><canvas id="kpiDonutCity"></canvas></div></div>
   `;
+
+  // Mini interactive donuts embedded in each KPI card
+  const kpiDonutOpts = {
+    plugins:{legend:{display:false}, tooltip:{titleFont:{size:11}, bodyFont:{size:11}, padding:8}},
+    maintainAspectRatio:false, cutout:'68%', animation:{duration:400}
+  };
+  [kpiDonutYield, kpiDonutValue, kpiDonutOcc, kpiDonutCity].forEach(c=>{ if(c) c.destroy(); });
+
+  kpiDonutYield = new Chart(document.getElementById('kpiDonutYield'), {
+    type:'doughnut',
+    data:{labels:['Yield','Remainder'], datasets:[{data:[avgYield, Math.max(0,100-avgYield)], backgroundColor:['#2E96A0','#EFEAE0'], borderWidth:0}]},
+    options:{...kpiDonutOpts, plugins:{...kpiDonutOpts.plugins, tooltip:{callbacks:{label:(ctx)=> ctx.dataIndex===0 ? `Avg yield: ${avgYield.toFixed(2)}%` : `Remaining to 100%: ${(100-avgYield).toFixed(2)}%`}}}}
+  });
+
+  const typeValueMap = {};
+  list.forEach(p=>{ typeValueMap[p.type] = (typeValueMap[p.type]||0) + p.price; });
+  const typeLabels = Object.keys(typeValueMap);
+  kpiDonutValue = new Chart(document.getElementById('kpiDonutValue'), {
+    type:'doughnut',
+    data:{labels:typeLabels, datasets:[{data:typeLabels.map(t=>typeValueMap[t]), backgroundColor:['#C9A227','#2E96A0','#B4502F','#9C7A15'], borderWidth:0}]},
+    options:{...kpiDonutOpts, plugins:{...kpiDonutOpts.plugins, tooltip:{callbacks:{label:(ctx)=> `${ctx.label}: ${fmtGBPShort(ctx.parsed)} (${(ctx.parsed/totalValue*100).toFixed(0)}%)`}}}}
+  });
+
+  kpiDonutOcc = new Chart(document.getElementById('kpiDonutOcc'), {
+    type:'doughnut',
+    data:{labels:['Occupied','Vacant'], datasets:[{data:[occupiedCount, list.length-occupiedCount], backgroundColor:['#2E96A0','#B4502F'], borderWidth:0}]},
+    options:{...kpiDonutOpts, plugins:{...kpiDonutOpts.plugins, tooltip:{callbacks:{label:(ctx)=> `${ctx.label}: ${ctx.parsed} propert${ctx.parsed===1?'y':'ies'}`}}}}
+  });
+
+  const cityMap = {};
+  list.forEach(p=>{ const city = p.location.split(',').pop().trim(); cityMap[city] = (cityMap[city]||0) + 1; });
+  const cityLabels = Object.keys(cityMap);
+  const cityColors = ['#C9A227','#2E96A0','#B4502F','#9C7A15','#217F88','#D99676','#E8C468','#8FCBD1'];
+  kpiDonutCity = new Chart(document.getElementById('kpiDonutCity'), {
+    type:'doughnut',
+    data:{labels:cityLabels, datasets:[{data:cityLabels.map(c=>cityMap[c]), backgroundColor:cityColors, borderWidth:0}]},
+    options:{...kpiDonutOpts, plugins:{...kpiDonutOpts.plugins, tooltip:{callbacks:{label:(ctx)=> `${ctx.label}: ${ctx.parsed} propert${ctx.parsed===1?'y':'ies'}`}}}}
+  });
 
   const trendLabels = ["Q4 '24","Q1 '25","Q2 '25","Q3 '25","Q4 '25","Q1 '26","Q2 '26","Q3 '26"];
   const trendData = [100,102.3,101.6,104.8,107.1,109.4,111.0,113.6];
@@ -740,6 +919,30 @@ function calcROI(){
   document.getElementById('roiOut-payback').textContent = payback ? payback.toFixed(1)+' yrs' : '—';
   document.getElementById('roiOut-fv').textContent = fmtGBPShort(fv);
 
+  // Interactive "Where your rent goes" breakdown — mortgage / expenses / net cash flow as shares of rent
+  const rbMortgage = Math.max(0, Math.min(mortgage, rent));
+  const rbExpenses = Math.max(0, Math.min(exp, rent - rbMortgage));
+  const rbCashflow = Math.max(0, rent - rbMortgage - rbExpenses);
+  const rbCtx = document.getElementById('roiBreakdownChart');
+  if(roiBreakdownChart) roiBreakdownChart.destroy();
+  if(rbCtx && rent > 0){
+    roiBreakdownChart = new Chart(rbCtx, {
+      type:'doughnut',
+      data:{
+        labels:['Mortgage','Expenses','Net cash flow'],
+        datasets:[{data:[rbMortgage, rbExpenses, rbCashflow], backgroundColor:['#B4502F','#C9A227','#2E96A0'], borderWidth:0}]
+      },
+      options:{
+        maintainAspectRatio:false, cutout:'62%',
+        plugins:{
+          legend:{position:'bottom', labels:{color:'#1C1C1C', font:{family:'IBM Plex Mono', size:11}, padding:14}},
+          tooltip:{callbacks:{label:(ctx)=> `${ctx.label}: ${fmtGBP(ctx.parsed)}/mo (${(ctx.parsed/rent*100).toFixed(0)}%)`}}
+        },
+        animation:{duration:300}
+      }
+    });
+  }
+
   // Live methodology breakdown — mirrors the math above with the actual numbers plugged in
   document.getElementById('m-mortgage-sub').textContent =
     `L = ${fmtGBP(loanAmt)} loan · r = ${(r*100).toFixed(3)}% per month · n = ${n} monthly payments`;
@@ -777,7 +980,7 @@ function renderAdmin(){
       <div class="denied-card">
         <div class="denied-stamp">Admin Access Required</div>
         <p>Sign in with the Admin role to add, edit, or remove properties.</p>
-        <button class="btn btn-primary" onclick="document.getElementById('loginOverlay').classList.add('show')">Sign In as Admin</button>
+        <button class="btn btn-primary" onclick="selectRole('admin'); document.getElementById('loginOverlay').classList.add('show')">Sign In as Admin</button>
       </div>`;
     return;
   }
