@@ -42,21 +42,6 @@
   main{padding:72px 0 100px;}
   .eyebrow{font-family:'IBM Plex Mono',monospace; font-size:0.78rem; letter-spacing:0.16em; color:var(--brass-deep); text-transform:uppercase; margin-bottom:18px; display:flex; align-items:center; gap:10px;}
   .eyebrow::before{content:""; width:24px; height:2px; background:var(--brass); border-radius:2px;}
-
-  /* Site-level stepper */
-  .site-stepper{background:var(--paper-dim); border-bottom:1px solid var(--rule); padding:14px 0; position:sticky; top:64px; z-index:49;}
-  .stepper-row{display:flex; align-items:center; gap:10px; flex-wrap:wrap;}
-  .step-node{display:flex; align-items:center; gap:8px; font-family:'IBM Plex Mono',monospace; font-size:0.76rem; letter-spacing:.03em; color:var(--ink-dim); transition:color .2s;}
-  .step-node:hover{color:var(--ink);}
-  .step-node .step-num{
-    width:20px; height:20px; border-radius:50%; display:flex; align-items:center; justify-content:center;
-    font-size:0.66rem; font-weight:700; border:1.5px solid var(--ink-dim); flex-shrink:0;
-  }
-  .step-node.active{color:var(--ink); font-weight:600;}
-  .step-node.active .step-num{background:var(--brass); border-color:var(--brass); color:var(--dark);}
-  .step-node.done .step-num{background:var(--teal-fill); border-color:var(--teal-fill); color:#fff;}
-  .step-line{width:28px; height:1px; background:var(--rule); flex-shrink:0;}
-  @media (max-width:560px){ .step-node span:last-child{display:none;} }
   h1{font-family:'Fraunces',serif; font-weight:600; font-size:clamp(2.1rem,4.2vw,3.2rem); line-height:1.08; max-width:16ch; color:var(--ink);}
   h1 em{font-style:italic; font-weight:400; color:var(--brass-deep);}
   .sub{margin-top:22px; font-size:1.05rem; color:var(--ink-dim); max-width:64ch; line-height:1.65;}
@@ -115,38 +100,28 @@
   <nav class="wrap">
     <a href="index.html" class="logo"><img src="assets/valyrify-logo-light.png" alt="VALYRIFY" class="logo-img"></a>
     <div class="navlinks">
-      <a href="index.html#modules">Modules</a>
-      <a href="index.html#journey">Journey</a>
-      <a href="app.html?login=1">Login / Signup</a>
+      <a href="index.html#dashboard">Dashboard</a>
+      <a href="index.html#properties">Properties</a>
+      <a href="index.html#roi">ROI Calculator</a>
     </div>
-    <a href="index.html" class="navtag">← Overview</a>
+    <a href="index.html?login=1" class="navtag">Login / Signup</a>
   </nav>
 </header>
-
-<div class="site-stepper">
-  <div class="wrap stepper-row">
-    <a href="index.html" class="step-node done"><span class="step-num">✓</span> <span>Overview</span></a>
-    <span class="step-line"></span>
-    <a href="app.html" class="step-node done"><span class="step-num">✓</span> <span>Live Demo</span></a>
-    <span class="step-line"></span>
-    <span class="step-node active"><span class="step-num">3</span> <span>Roadmap</span></span>
-  </div>
-</div>
 
 <main>
   <div class="wrap">
     <div class="eyebrow">Future Roadmap</div>
-    <h1>Everything <em>after</em> this vision demo.</h1>
-    <p class="sub">This demo runs entirely on sample data and mocked logic — by design. Below is exactly what turns each mocked piece into the real thing, ship by ship, over the four quarters following delivery.</p>
+    <h1>Everything <em>after</em> what's live today.</h1>
+    <p class="sub">The platform above runs on sample data and mocked logic — by design. Below is exactly what turns each mocked piece into the real thing, ship by ship, over the four quarters following delivery.</p>
 
     <div class="timeline" id="timeline"></div>
 
     <div class="cta-band">
       <div>
         <h3>Want to see what's live today?</h3>
-        <p>Every feature above already has a working, mocked version in the demo right now.</p>
+        <p>Every feature above already has a working, mocked version in the platform right now.</p>
       </div>
-      <a href="app.html?login=1" class="btn btn-primary">Login / Signup →</a>
+      <a href="index.html?login=1" class="btn btn-primary">Login / Signup →</a>
     </div>
   </div>
 </main>
@@ -154,12 +129,11 @@
 <footer>
   <div class="wrap foot-row">
     <div class="foot-left">
-      <p>VALYRIFY Vision Demo — prepared by Khurram Shafique for Faruk Wayne.</p>
+      <p>VALYRIFY Property Intelligence — prepared by Khurram Shafique for Faruk Wayne.</p>
     </div>
     <div class="foot-right">
-      <a href="index.html">Overview</a>
-      <a href="index.html#modules">Modules</a>
-      <a href="app.html?login=1">Login / Signup</a>
+      <a href="index.html">Dashboard</a>
+      <a href="index.html?login=1">Login / Signup</a>
     </div>
   </div>
 </footer>

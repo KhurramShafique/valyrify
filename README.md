@@ -1,21 +1,29 @@
-# VALYRIFY Vision Demo — Site
+# VALYRIFY — Property Intelligence Platform
 
-Static site, no build step required. Three pages so far:
+Static site, no build step required. Two pages:
 
-- `index.html` — the landing page / vision overview (Prototype 1)
-- `app.html` — the interactive product demo: Dashboard, Properties, ROI Calculator, Admin (Prototype 2)
-- `roadmap.html` — dedicated Future Roadmap page, with every upcoming feature grouped
-  by quarter and stamped "Coming Soon"
+- `index.html` — the platform itself: Dashboard, Properties, ROI Calculator, and
+  Admin are tabs directly in the top nav. This is the whole product experience
+  in one page, GBP/UK data throughout.
+- `roadmap.html` — dedicated Future Roadmap page, every upcoming feature
+  grouped by quarter.
 
-They're linked together: "Enter the Demo" and each module row on the landing
-page jump straight into the matching tab in `app.html` (e.g. `app.html#roi`).
-The app's logo and "← Overview" link go back to `index.html`. Every "Coming
-Soon" stamp across the site (hover for a tooltip on the landing page, or read
-inline in the app) links through to `roadmap.html` for the full picture.
+`app.html` still exists as a redirect stub (in case any old links or bookmarks
+point to it) — it forwards straight to `index.html`, preserving any `#hash` or
+`?query` on the URL.
 
-All data is sample data held in memory in the browser — it resets on page
-refresh. There is no backend, database, or real AI call behind any of it,
-by design (per the Vision Demo proposal).
+All data is sample UK property data held in memory in the browser — it resets
+on page refresh. There is no backend, database, or real AI call behind any of
+it, by design (per the Vision Demo proposal).
+
+The "Login / Signup" button in the nav opens the sign-in modal (choose Viewer
+or Admin to preview role-based access). Linking to `index.html?login=1` opens
+that modal automatically on load.
+
+The ROI Calculator includes a live "How this is calculated" breakdown — every
+formula (mortgage payment, cash flow, cash-on-cash ROI, cap rate, payback
+period, 5-year value) is shown with the actual numbers plugged in, and updates
+as you change any input.
 
 ## Deploy on Vercel
 
@@ -41,16 +49,11 @@ vercel
 Follow the prompts (link or create a project), then `vercel --prod` to push
 to production.
 
-## Adding the next prototype
+## Structure notes
 
-Each new module can be its own HTML file at the root (self-contained, like
-`app.html` — inline CSS/JS, Google Fonts + Chart.js via CDN, no build step).
-
-To wire a new prototype in:
-1. Add the file, e.g. `roadmap-full.html`
-2. Add/point a nav link or module row in `index.html` (or a tab in `app.html`)
-   to it, same pattern as the existing `app.html#dashboard` links
-3. Redeploy (push to GitHub, or re-drag the folder / re-run `vercel --prod`)
-
-`vercel.json` has `cleanUrls: true`, so once deployed, `app.html` is also
-reachable at `/app` (no extension needed) — keep that in mind when linking.
+- Tabs are just `<section class="view">` blocks toggled by JS (`switchView()`
+  in `index.html`) — no routing library, no build step.
+- `#dashboard`, `#properties`, `#roi`, `#admin` in the URL hash open the
+  matching tab on load (used by `roadmap.html`'s nav links back into the app).
+- `vercel.json` has `cleanUrls: true`, so `index.html` is also reachable at
+  the bare domain root, and `roadmap.html` at `/roadmap`.
