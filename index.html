@@ -39,13 +39,13 @@
   .logo-block:hover{opacity:0.8;}
   .logo-img{height:32px; width:auto; display:block;}
   .logo-tag{font-family:'IBM Plex Mono',monospace; font-size:.68rem; letter-spacing:.06em; text-transform:uppercase; color:var(--cream-dim); border-left:1px solid var(--rule-dark); padding-left:10px;}
-  .tabs{display:flex; gap:4px; flex:1; overflow-x:auto;}
+  .public-nav{display:flex; gap:28px; align-items:center; flex:1;}
+  .public-nav a{font-family:'IBM Plex Mono',monospace; font-size:.8rem; letter-spacing:.05em; text-transform:uppercase; color:var(--cream-dim); transition:color .2s;}
+  .public-nav a:hover{color:var(--brass-light);}
+  .tabs{display:none; gap:4px; flex:1; overflow-x:auto;}
+  body.authed .tabs{display:flex;}
+  body.authed .public-nav{display:none;}
   .tab{font-family:'IBM Plex Mono',monospace; font-size:.76rem; letter-spacing:.05em; text-transform:uppercase; color:var(--cream-dim); background:none; border:none; padding:9px 14px; border-radius:3px; white-space:nowrap; transition:all .2s; display:inline-flex; align-items:center; gap:7px;}
-  .tab-num{
-    width:16px; height:16px; border-radius:50%; border:1px solid currentColor; display:inline-flex;
-    align-items:center; justify-content:center; font-size:0.6rem; flex-shrink:0; opacity:0.8;
-  }
-  .tab.active .tab-num{background:var(--dark-deep); border-color:var(--dark-deep);}
   .tab-sep{width:1px; height:18px; background:rgba(247,245,240,0.15); margin:0 4px;}
   .tab-admin{opacity:0.85;}
   .tab-lock{font-size:0.7rem; opacity:0.7;}
@@ -58,9 +58,58 @@
   .signin-btn:hover{background:var(--brass-light); transform:translateY(-1px); box-shadow:0 4px 12px rgba(201,162,39,0.35);}
 
   main{max-width:1220px; margin:0 auto; padding:40px 32px 100px;}
+  #landingSection{display:block;}
+  body.authed #landingSection{display:none;}
   .view{display:none;}
   .view.active{display:block; animation:fadein .35s ease;}
+  body:not(.authed) .view{display:none !important;}
   @keyframes fadein{from{opacity:0; transform:translateY(6px);} to{opacity:1; transform:translateY(0);}}
+
+  /* Landing (logged-out) content */
+  .landing-hero{padding:64px 0 24px; max-width:64ch;}
+  .landing-hero h1{font-family:'Fraunces',serif; font-weight:600; font-size:clamp(2rem,4vw,2.8rem); line-height:1.12; color:var(--ink); margin-top:8px;}
+  .landing-hero h1 em{font-style:italic; font-weight:400; color:var(--brass-deep);}
+  .landing-sub{color:var(--ink-dim); font-size:1.05rem; margin:18px 0 26px; line-height:1.6;}
+
+  #modules, #roadmap-teaser{padding:72px 0;}
+  .section-head{margin-bottom:40px; max-width:60ch;}
+  .section-head h2{font-family:'Fraunces',serif; font-weight:600; font-size:clamp(1.6rem,2.8vw,2.1rem); margin-top:8px; color:var(--ink);}
+  .section-head p{color:var(--ink-dim); margin-top:12px; font-size:.98rem;}
+
+  .pie-row{display:grid; grid-template-columns:1fr 300px; gap:24px; align-items:start;}
+  .pie-card{background:var(--paper); border:1px solid var(--rule); box-shadow:var(--shadow); border-radius:14px; padding:24px; position:sticky; top:88px;}
+  .pie-card h3{font-family:'Fraunces',serif; font-weight:600; font-size:1.02rem; margin-bottom:14px;}
+  .pie-note{font-size:.8rem; color:var(--ink-dim); margin-top:14px; line-height:1.5;}
+
+  /* Module cards */
+  .module-grid{display:grid; grid-template-columns:1fr 1fr; gap:18px;}
+  .mod-card{
+    background:var(--paper); border-radius:14px; padding:24px; border:1px solid var(--rule);
+    box-shadow:var(--shadow); cursor:pointer; transition:transform .2s, box-shadow .2s;
+    display:flex; flex-direction:column; gap:12px;
+  }
+  .mod-card:hover{transform:translateY(-3px); box-shadow:0 4px 10px rgba(28,24,10,0.06), 0 16px 36px rgba(28,24,10,0.1);}
+  .pill{
+    font-family:'IBM Plex Mono',monospace; font-size:0.62rem; letter-spacing:0.06em; text-transform:uppercase;
+    padding:5px 11px; border-radius:20px; font-weight:600; white-space:nowrap; align-self:flex-start;
+  }
+  .pill-live{background:var(--teal-fill); color:#fff;}
+  .modname{font-family:'Fraunces',serif; font-size:1.12rem; font-weight:600; color:var(--ink);}
+  .moddesc{color:var(--ink-dim); font-size:.9rem; line-height:1.5;}
+  .mod-arrow{font-family:'IBM Plex Mono',monospace; font-size:.78rem; color:var(--brass-deep); margin-top:auto;}
+
+  /* Roadmap teaser cards */
+  .roadmap-grid{display:grid; grid-template-columns:1fr 1fr; gap:16px;}
+  .rq-card{background:var(--paper); border-radius:14px; padding:22px; border:1px solid var(--rule); box-shadow:var(--shadow);}
+  .rq-q{font-family:'IBM Plex Mono',monospace; font-size:.72rem; color:var(--brass-deep); letter-spacing:.08em; text-transform:uppercase; margin-bottom:12px; font-weight:600;}
+  .rq-feat{font-size:.86rem; color:var(--ink-dim); margin-bottom:8px; padding-left:14px; position:relative;}
+  .rq-feat::before{content:"·"; position:absolute; left:0; color:var(--rust); font-weight:700;}
+
+  @media (max-width:900px){
+    .pie-row{grid-template-columns:1fr;}
+    .pie-card{position:static;}
+    .module-grid, .roadmap-grid{grid-template-columns:1fr;}
+  }
 
   .page-head{margin-bottom:34px;}
   .eyebrow{font-family:'IBM Plex Mono',monospace; font-size:.75rem; letter-spacing:.14em; color:var(--brass-deep); text-transform:uppercase; margin-bottom:10px; display:flex; align-items:center; gap:10px;}
@@ -313,10 +362,14 @@
       <img src="assets/valyrify-logo-light.png" alt="VALYRIFY" class="logo-img">
       <span class="logo-tag">Property Intelligence</span>
     </a>
+    <div class="public-nav" id="publicNav">
+      <a href="#modules">Modules</a>
+      <a href="roadmap.html">Roadmap</a>
+    </div>
     <div class="tabs" id="tabs">
-      <button class="tab active" data-view="dashboard"><span class="tab-num">1</span> Dashboard</button>
-      <button class="tab" data-view="properties"><span class="tab-num">2</span> Properties</button>
-      <button class="tab" data-view="roi"><span class="tab-num">3</span> ROI Calculator</button>
+      <button class="tab active" data-view="dashboard">Dashboard</button>
+      <button class="tab" data-view="properties">Properties</button>
+      <button class="tab" data-view="roi">ROI Calculator</button>
       <span class="tab-sep"></span>
       <button class="tab tab-admin" data-view="admin">Admin <span class="tab-lock">🔒</span></button>
     </div>
@@ -328,6 +381,56 @@
 </header>
 
 <main>
+
+  <section id="landingSection">
+    <div class="wrap">
+      <div class="landing-hero">
+        <div class="eyebrow">Prepared for Faruk Wayne</div>
+        <h1>Property intelligence, <em>made visible.</em></h1>
+        <p class="landing-sub">VALYRIFY is an AI-native platform for valuation, rental pricing, and investment forecasting — built for the moment investors, developers, and asset managers need certainty, not guesswork.</p>
+        <button class="btn btn-primary" onclick="document.getElementById('loginOverlay').classList.add('show')">Login / Signup →</button>
+      </div>
+    </div>
+
+    <section id="modules">
+      <div class="wrap">
+        <div class="section-head">
+          <div class="eyebrow">Module Index</div>
+          <h2>What's live in the platform</h2>
+          <p>Every module below runs on real interaction with sample data. Sign in to open any of them.</p>
+        </div>
+        <div class="pie-row">
+          <div class="module-grid" id="moduleGrid"></div>
+          <div class="pie-card">
+            <h3>Platform coverage</h3>
+            <div class="canvas-wrap" style="height:170px;"><canvas id="moduleCoverageChart"></canvas></div>
+            <p class="pie-note">7 of 7 core modules are live and interactive in this demo.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="roadmap-teaser" style="background:var(--bg-soft);">
+      <div class="wrap">
+        <div class="section-head">
+          <div class="eyebrow">Future Roadmap</div>
+          <h2>Where VALYRIFY is headed</h2>
+          <p>Eight features ship over the four quarters after this vision demo — from live AI valuation to enterprise reporting.</p>
+        </div>
+        <div class="pie-row">
+          <div class="roadmap-grid" id="roadmapGrid"></div>
+          <div class="pie-card">
+            <h3>Roadmap by area</h3>
+            <div class="canvas-wrap" style="height:170px;"><canvas id="roadmapAreaChart"></canvas></div>
+            <p class="pie-note">Hover a slice to see which module each upcoming feature belongs to.</p>
+          </div>
+        </div>
+        <div style="margin-top:36px;">
+          <a href="roadmap.html" class="btn btn-primary">View the Full Roadmap →</a>
+        </div>
+      </div>
+    </section>
+  </section>
 
   <section class="view active" id="view-dashboard">
     <div class="page-head">
@@ -615,6 +718,7 @@
 
 <script>
 let role = null;
+let pendingView = null;
 let editingId = null;
 let sortKey = null, sortDir = 1;
 
@@ -693,10 +797,12 @@ function signIn(r){
   closeLogin();
   showToast(`Signed in as ${r==='admin'?'Admin':'Viewer'}.`);
   renderAdmin();
+  if(pendingView){ switchView(pendingView); pendingView = null; }
 }
 function updateRoleUI(){
   const badge = document.getElementById('roleBadge');
   const btn = document.getElementById('signinBtn');
+  document.body.classList.toggle('authed', !!role);
   if(role){
     badge.textContent = role==='admin' ? 'Admin' : 'Viewer';
     badge.classList.toggle('admin', role==='admin');
@@ -1096,6 +1202,91 @@ function deleteProperty(id){
   showToast('Property deleted.');
 }
 
+/* ---------------- LANDING: Modules + Roadmap teaser ---------------- */
+const landingModules = [
+  {name:'User Management', desc:'Sign in with role-based access for Admin and Viewer accounts.', view:null},
+  {name:'Dashboard', desc:'Live charts for occupancy, price trends, and yield metrics on sample data.', view:'dashboard'},
+  {name:'Property Data Input', desc:'Add, edit, and delete properties with full form validation.', view:'admin'},
+  {name:'AI-Based Valuation', desc:'Input form with a mocked valuation output, driven by smart logic.', view:'properties'},
+  {name:'Rental Pricing Intelligence', desc:'Recommended rent compared against a static market-average dataset.', view:'properties'},
+  {name:'ROI &amp; Investment Calculator', desc:'Fully functional — enter numbers, get ROI%, cash flow, and payback period.', view:'roi'},
+  {name:'Admin Panel', desc:'Full CRUD for properties, user management, and dashboard controls.', view:'admin'},
+];
+function renderLandingModules(){
+  const el = document.getElementById('moduleGrid');
+  if(!el) return;
+  el.innerHTML = landingModules.map(m => `
+    <div class="mod-card" onclick="openModuleCard('${m.view}')">
+      <div class="pill pill-live">Live</div>
+      <div class="modname">${m.name}</div>
+      <div class="moddesc">${m.desc}</div>
+      <div class="mod-arrow">Sign in to open →</div>
+    </div>
+  `).join('');
+}
+function openModuleCard(view){
+  pendingView = (view && view !== 'null') ? view : null;
+  if(pendingView === 'admin') selectRole('admin');
+  document.getElementById('loginOverlay').classList.add('show');
+}
+
+const roadmapTeaser = [
+  {q:'Q3 2026', tag:'AI Valuation', feats:['Live AI API integration','Historical market trend analysis']},
+  {q:'Q4 2026', tag:'Platform', feats:['Mobile-responsive web app (PWA)','Bulk property import (CSV/Excel)']},
+  {q:'Q1 2027', tag:'Admin Panel', feats:['Subscription &amp; billing system','Multi-property scenario comparison']},
+  {q:'Q2 2027', tag:'Rental Intelligence', feats:['Enterprise reporting &amp; dashboards','Third-party data integration']},
+];
+function renderRoadmapTeaser(){
+  const el = document.getElementById('roadmapGrid');
+  if(!el) return;
+  el.innerHTML = roadmapTeaser.map(r => `
+    <div class="rq-card">
+      <div class="rq-q">${r.q}</div>
+      ${r.feats.map(f=>`<div class="rq-feat">${f}</div>`).join('')}
+    </div>
+  `).join('');
+}
+
+let moduleCoverageChart, roadmapAreaChart;
+function renderLandingCharts(){
+  const covCtx = document.getElementById('moduleCoverageChart');
+  if(covCtx){
+    if(moduleCoverageChart) moduleCoverageChart.destroy();
+    moduleCoverageChart = new Chart(covCtx, {
+      type:'doughnut',
+      data:{labels:['Live modules'], datasets:[{data:[landingModules.length], backgroundColor:['#2E96A0'], borderWidth:0}]},
+      options:{
+        cutout:'70%', maintainAspectRatio:false,
+        plugins:{legend:{display:false}, tooltip:{callbacks:{label:()=> `${landingModules.length}/${landingModules.length} modules live (100%)`}}}
+      }
+    });
+  }
+
+  const areaCtx = document.getElementById('roadmapAreaChart');
+  if(areaCtx){
+    if(roadmapAreaChart) roadmapAreaChart.destroy();
+    const tagCounts = {};
+    roadmapTeaser.forEach(r => r.feats.forEach(()=>{ tagCounts[r.tag] = (tagCounts[r.tag]||0)+1; }));
+    const tagLabels = Object.keys(tagCounts);
+    const total = Object.values(tagCounts).reduce((a,b)=>a+b,0);
+    const colors = ['#C9A227','#2E96A0','#B4502F','#9C7A15','#217F88','#D99676','#E8C468'];
+    roadmapAreaChart = new Chart(areaCtx, {
+      type:'pie',
+      data:{labels:tagLabels, datasets:[{data:tagLabels.map(t=>tagCounts[t]), backgroundColor:colors, borderWidth:0}]},
+      options:{
+        maintainAspectRatio:false,
+        plugins:{
+          legend:{position:'bottom', labels:{color:'#1C1C1C', font:{family:'IBM Plex Mono', size:10}, boxWidth:10, padding:10}},
+          tooltip:{callbacks:{label:(ctx)=> `${ctx.label}: ${ctx.parsed} feature${ctx.parsed===1?'':'s'} (${(ctx.parsed/total*100).toFixed(0)}%)`}}
+        }
+      }
+    });
+  }
+}
+
+renderLandingModules();
+renderRoadmapTeaser();
+renderLandingCharts();
 renderDashboard();
 renderProperties();
 calcROI();
