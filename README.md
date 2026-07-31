@@ -57,6 +57,3 @@ to production.
   matching tab on load (used by `roadmap.html`'s nav links back into the app).
 - `vercel.json` has `cleanUrls: true`, so `index.html` is also reachable at
   the bare domain root, and `roadmap.html` at `/roadmap`.
-
-## Use of Images
-- All images were either created by us or from creators on the internet and are attributed on the site.

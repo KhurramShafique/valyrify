@@ -431,6 +431,79 @@
     .prop-table-wrap thead th:nth-child(4){display:none;} /* £/Sqft — hide on very narrow screens to reduce scroll */
     .prop-table-wrap tbody td:nth-child(4){display:none;}
   }
+  /* ---- Landing page animation (skipped entirely for reduced-motion users) ---- */
+  @media (prefers-reduced-motion: no-preference){
+
+    /* Generic scroll-reveal: section heads, pie cards, hero, wave CTA */
+    .landing-hero > *, .section-head, .pie-card, .wave-cta-inner{
+      opacity:0; transform:translateY(22px);
+      transition:opacity .6s ease, transform .6s ease;
+    }
+    .landing-hero.in-view > *, .section-head.in-view, .pie-card.in-view, .wave-cta-body.in-view .wave-cta-inner{
+      opacity:1; transform:translateY(0);
+    }
+    .landing-hero > *:nth-child(1){transition-delay:0ms;}
+    .landing-hero > *:nth-child(2){transition-delay:100ms;}
+    .landing-hero > *:nth-child(3){transition-delay:200ms;}
+    .landing-hero > *:nth-child(4){transition-delay:320ms;}
+
+    /* Eyebrow accent dash draws in after its section-head fades up */
+    .section-head .eyebrow::before{width:0; transition:width .5s ease .25s;}
+    .section-head.in-view .eyebrow::before{width:22px;}
+
+    /* Staggered card grids */
+    .module-grid .mod-card, .roadmap-grid .rq-card{
+      opacity:0; transform:translateY(20px);
+      transition:opacity .5s ease, transform .5s ease;
+    }
+    .module-grid.in-view .mod-card, .roadmap-grid.in-view .rq-card{opacity:1; transform:translateY(0);}
+    .module-grid .mod-card:nth-child(1){transition-delay:0ms;}
+    .module-grid .mod-card:nth-child(2){transition-delay:70ms;}
+    .module-grid .mod-card:nth-child(3){transition-delay:140ms;}
+    .module-grid .mod-card:nth-child(4){transition-delay:210ms;}
+    .module-grid .mod-card:nth-child(5){transition-delay:280ms;}
+    .module-grid .mod-card:nth-child(6){transition-delay:350ms;}
+    .module-grid .mod-card:nth-child(7){transition-delay:420ms;}
+    .roadmap-grid .rq-card:nth-child(1){transition-delay:0ms;}
+    .roadmap-grid .rq-card:nth-child(2){transition-delay:90ms;}
+    .roadmap-grid .rq-card:nth-child(3){transition-delay:180ms;}
+    .roadmap-grid .rq-card:nth-child(4){transition-delay:270ms;}
+
+    /* Live pill pulsing status dot */
+    .pill-live{display:inline-flex; align-items:center; gap:5px;}
+    .pill-live::before{
+      content:""; width:6px; height:6px; border-radius:50%; background:#fff; flex-shrink:0;
+      animation:livepulse 2s ease-in-out infinite;
+    }
+    @keyframes livepulse{0%,100%{opacity:1; transform:scale(1);} 50%{opacity:.45; transform:scale(0.7);}}
+
+    /* Module illustration idle float, paused + scaled on hover */
+    .mod-img{animation:imgfloat 4.5s ease-in-out infinite;}
+    .mod-card:hover .mod-img{animation-play-state:paused;}
+    .mod-card:nth-child(2) .mod-img{animation-delay:.3s;}
+    .mod-card:nth-child(3) .mod-img{animation-delay:.6s;}
+    .mod-card:nth-child(4) .mod-img{animation-delay:.9s;}
+    .mod-card:nth-child(5) .mod-img{animation-delay:1.2s;}
+    .mod-card:nth-child(6) .mod-img{animation-delay:1.5s;}
+    .mod-card:nth-child(7) .mod-img{animation-delay:1.8s;}
+    @keyframes imgfloat{0%,100%{transform:translateY(0);} 50%{transform:translateY(-6px);}}
+
+    /* How It Works: stages pop in sequence, chevrons pulse between them */
+    .flow-stage{opacity:0; transform:translateY(14px); transition:opacity .5s ease, transform .5s ease;}
+    #how-it-works.in-view .flow-stage:nth-child(1){transition-delay:0ms;}
+    #how-it-works.in-view .flow-stage:nth-child(3){transition-delay:500ms;}
+    #how-it-works.in-view .flow-stage:nth-child(5){transition-delay:1000ms;}
+    #how-it-works.in-view .flow-stage{opacity:1; transform:translateY(0);}
+    .flow-stage .flow-icon{opacity:0; transform:scale(.7);}
+    #how-it-works.in-view .flow-stage:nth-child(1) .flow-icon{animation:stagepop .5s ease forwards; animation-delay:0ms;}
+    #how-it-works.in-view .flow-stage:nth-child(3) .flow-icon{animation:stagepop .5s ease forwards; animation-delay:500ms;}
+    #how-it-works.in-view .flow-stage:nth-child(5) .flow-icon{animation:stagepop .5s ease forwards; animation-delay:1000ms;}
+    @keyframes stagepop{0%{transform:scale(.7); opacity:0;} 60%{transform:scale(1.08); opacity:1;} 100%{transform:scale(1); opacity:1;}}
+    .flow-chevron{opacity:0; transform:translateX(-6px);}
+    #how-it-works.in-view .flow-chevron:nth-child(2){animation:chevpop .4s ease forwards; animation-delay:250ms;}
+    #how-it-works.in-view .flow-chevron:nth-child(4){animation:chevpop .4s ease forwards; animation-delay:750ms;}
+    @keyframes chevpop{to{opacity:.7; transform:translateX(0);}}
+  }
 </style>
 </head>
 <body>
@@ -775,7 +848,6 @@
 <footer>
   <div class="wrap foot-row">
     <p>VALYRIFY Property Intelligence — prepared by Khurram Shafique for Faruk Wayne.</p>
-    <p><a href="https://storyset.com/technology">Technology illustrations by Storyset</a></p>
     <div class="foot-right">
       <a href="roadmap.html">Roadmap</a>
     </div>
@@ -1377,45 +1449,86 @@ function renderRoadmapTeaser(){
 }
 
 let moduleCoverageChart, roadmapAreaChart;
-function renderLandingCharts(){
+const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+function renderModuleCoverageChart(){
   const covCtx = document.getElementById('moduleCoverageChart');
-  if(covCtx){
-    if(moduleCoverageChart) moduleCoverageChart.destroy();
-    moduleCoverageChart = new Chart(covCtx, {
-      type:'doughnut',
-      data:{labels:['Live modules'], datasets:[{data:[landingModules.length], backgroundColor:['#2E96A0'], borderWidth:0}]},
-      options:{
-        cutout:'70%', maintainAspectRatio:false,
-        plugins:{legend:{display:false}, tooltip:{callbacks:{label:()=> `${landingModules.length}/${landingModules.length} modules live (100%)`}}}
+  if(!covCtx || moduleCoverageChart) return;
+  moduleCoverageChart = new Chart(covCtx, {
+    type:'doughnut',
+    data:{labels:['Live modules'], datasets:[{data:[landingModules.length], backgroundColor:['#2E96A0'], borderWidth:0}]},
+    options:{
+      cutout:'70%', maintainAspectRatio:false,
+      animation: prefersReducedMotion ? false : {duration:900},
+      plugins:{legend:{display:false}, tooltip:{callbacks:{label:()=> `${landingModules.length}/${landingModules.length} modules live (100%)`}}}
+    }
+  });
+}
+function renderRoadmapAreaChart(){
+  const areaCtx = document.getElementById('roadmapAreaChart');
+  if(!areaCtx || roadmapAreaChart) return;
+  const tagCounts = {};
+  roadmapTeaser.forEach(r => r.feats.forEach(()=>{ tagCounts[r.tag] = (tagCounts[r.tag]||0)+1; }));
+  const tagLabels = Object.keys(tagCounts);
+  const total = Object.values(tagCounts).reduce((a,b)=>a+b,0);
+  const colors = ['#C9A227','#2E96A0','#B4502F','#9C7A15','#217F88','#D99676','#E8C468'];
+  roadmapAreaChart = new Chart(areaCtx, {
+    type:'pie',
+    data:{labels:tagLabels, datasets:[{data:tagLabels.map(t=>tagCounts[t]), backgroundColor:colors, borderWidth:0}]},
+    options:{
+      maintainAspectRatio:false,
+      animation: prefersReducedMotion ? false : {duration:900},
+      plugins:{
+        legend:{position:'bottom', labels:{color:'#1C1C1C', font:{family:'IBM Plex Mono', size:10}, boxWidth:10, padding:10}},
+        tooltip:{callbacks:{label:(ctx)=> `${ctx.label}: ${ctx.parsed} feature${ctx.parsed===1?'':'s'} (${(ctx.parsed/total*100).toFixed(0)}%)`}}
+      }
+    }
+  });
+}
+
+/* ---- Scroll-reveal + deferred chart loading ---- */
+function initScrollAnimations(){
+  const chartTriggers = {
+    moduleCoverageChart: renderModuleCoverageChart,
+    roadmapAreaChart: renderRoadmapAreaChart,
+  };
+  if(!('IntersectionObserver' in window)){
+    // No IO support: just show everything and render charts immediately
+    document.querySelectorAll('.landing-hero, .section-head, .pie-card, .module-grid, .roadmap-grid, #how-it-works, .wave-cta-body')
+      .forEach(el => el.classList.add('in-view'));
+    renderModuleCoverageChart();
+    renderRoadmapAreaChart();
+    return;
+  }
+  const revealObserver = new IntersectionObserver((entries)=>{
+    entries.forEach(entry=>{
+      if(entry.isIntersecting){
+        entry.target.classList.add('in-view');
+        revealObserver.unobserve(entry.target);
       }
     });
-  }
+  }, {threshold:0.15, rootMargin:'0px 0px -40px 0px'});
 
-  const areaCtx = document.getElementById('roadmapAreaChart');
-  if(areaCtx){
-    if(roadmapAreaChart) roadmapAreaChart.destroy();
-    const tagCounts = {};
-    roadmapTeaser.forEach(r => r.feats.forEach(()=>{ tagCounts[r.tag] = (tagCounts[r.tag]||0)+1; }));
-    const tagLabels = Object.keys(tagCounts);
-    const total = Object.values(tagCounts).reduce((a,b)=>a+b,0);
-    const colors = ['#C9A227','#2E96A0','#B4502F','#9C7A15','#217F88','#D99676','#E8C468'];
-    roadmapAreaChart = new Chart(areaCtx, {
-      type:'pie',
-      data:{labels:tagLabels, datasets:[{data:tagLabels.map(t=>tagCounts[t]), backgroundColor:colors, borderWidth:0}]},
-      options:{
-        maintainAspectRatio:false,
-        plugins:{
-          legend:{position:'bottom', labels:{color:'#1C1C1C', font:{family:'IBM Plex Mono', size:10}, boxWidth:10, padding:10}},
-          tooltip:{callbacks:{label:(ctx)=> `${ctx.label}: ${ctx.parsed} feature${ctx.parsed===1?'':'s'} (${(ctx.parsed/total*100).toFixed(0)}%)`}}
+  document.querySelectorAll('.landing-hero, .section-head, .pie-card, .module-grid, .roadmap-grid, #how-it-works, .wave-cta-body')
+    .forEach(el => revealObserver.observe(el));
+
+  // Charts: render once their own pie-card scrolls into view, so the draw-in animation is actually seen
+  const chartObserver = new IntersectionObserver((entries)=>{
+    entries.forEach(entry=>{
+      if(entry.isIntersecting){
+        const canvas = entry.target.querySelector('canvas');
+        if(canvas && chartTriggers[canvas.id]){
+          chartTriggers[canvas.id]();
+          chartObserver.unobserve(entry.target);
         }
       }
     });
-  }
+  }, {threshold:0.3});
+  document.querySelectorAll('#modules .pie-card, #roadmap-teaser .pie-card').forEach(el => chartObserver.observe(el));
 }
 
 renderLandingModules();
 renderRoadmapTeaser();
-renderLandingCharts();
+initScrollAnimations();
 renderDashboard();
 renderProperties();
 calcROI();
