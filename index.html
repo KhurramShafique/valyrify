@@ -352,6 +352,51 @@
   }
   @media (max-width:820px){ .logo-tag{display:none;} }
   @media (max-width:560px){ .kpi-grid{grid-template-columns:1fr;} }
+
+  /* ---- Mobile pass ---- */
+  @media (max-width:700px){
+    .wrap{padding:0 18px;}
+
+    /* Critical nav fix: wrap to two rows instead of overflowing horizontally */
+    nav.wrap{flex-wrap:wrap; height:auto; padding:10px 18px; row-gap:8px;}
+    .logo-block{order:1;}
+    .nav-right{order:2;}
+    .public-nav, .tabs{order:3; flex-basis:100%; width:100%; gap:16px;}
+    .role-badge{display:none;}
+    .signin-btn{font-size:.7rem; padding:8px 13px;}
+    .logo-img{height:26px;}
+
+    .landing-hero{padding:36px 0 12px;}
+    #modules, #roadmap-teaser{padding:44px 0;}
+    .section-head{margin-bottom:26px;}
+    .pie-card{padding:18px;}
+    .mod-card{padding:18px;}
+    .rq-card{padding:16px;}
+
+    .modal{padding:22px; max-height:92vh;}
+    .login-form-wrap h2{font-size:1.55rem;}
+    .login-banner{padding:9px 16px; font-size:.76rem;}
+    .lb-right{gap:10px;}
+    .field-row{grid-template-columns:1fr;}
+    table{font-size:.85rem;}
+    .admin-table-wrap table, #view-properties table{-webkit-overflow-scrolling:touch;}
+
+    .flow-nav{flex-direction:column; align-items:stretch;}
+    .flow-nav-end{align-items:stretch;}
+    .flow-btn{text-align:center;}
+
+    .cta-inner, .foot-row{flex-direction:column; align-items:flex-start; text-align:left;}
+  }
+  @media (max-width:480px){
+    .login-left{padding:28px 20px;}
+    .login-right{padding:28px 16px;}
+    .login-quote{font-size:1.15rem; margin:24px 0;}
+    .login-stats{gap:10px;}
+    .result-mini-grid{grid-template-columns:1fr;}
+    .detail-grid{grid-template-columns:1fr;}
+    .prop-table-wrap thead th:nth-child(4){display:none;} /* £/Sqft — hide on very narrow screens to reduce scroll */
+    .prop-table-wrap tbody td:nth-child(4){display:none;}
+  }
 </style>
 </head>
 <body>
@@ -363,8 +408,8 @@
       <span class="logo-tag">Property Intelligence</span>
     </a>
     <div class="public-nav" id="publicNav">
-      <!-- <a href="#modules">Modules</a> -->
-      <!-- <a href="roadmap.html">Roadmap</a> -->
+      <a href="#modules">Modules</a>
+      <a href="roadmap.html">Roadmap</a>
     </div>
     <div class="tabs" id="tabs">
       <button class="tab active" data-view="dashboard">Dashboard</button>
@@ -475,7 +520,7 @@
         <option>Occupied</option><option>Vacant</option>
       </select>
     </div>
-    <div style="overflow-x:auto;">
+    <div style="overflow-x:auto;" class="prop-table-wrap">
       <table>
         <thead>
           <tr>
