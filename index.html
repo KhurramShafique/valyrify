@@ -117,6 +117,12 @@
     display:flex; flex-direction:column; gap:12px;
   }
   .mod-card:hover{transform:translateY(-3px); box-shadow:0 4px 10px rgba(28,24,10,0.06), 0 16px 36px rgba(28,24,10,0.1);}
+  .mod-img-wrap{
+    margin:-24px -24px 4px -24px; height:148px; background:var(--bg-soft);
+    border-radius:14px 14px 0 0; display:flex; align-items:center; justify-content:center; overflow:hidden;
+  }
+  .mod-img{width:100%; height:100%; object-fit:contain; padding:14px; transition:transform .3s;}
+  .mod-card:hover .mod-img{transform:scale(1.05);}
   .pill{
     font-family:'IBM Plex Mono',monospace; font-size:0.62rem; letter-spacing:0.06em; text-transform:uppercase;
     padding:5px 11px; border-radius:20px; font-weight:600; white-space:nowrap; align-self:flex-start;
@@ -1325,19 +1331,20 @@ function deleteProperty(id){
 
 /* ---------------- LANDING: Modules + Roadmap teaser ---------------- */
 const landingModules = [
-  {name:'User Management', desc:'Sign in with role-based access for Admin and Viewer accounts.', view:null},
-  {name:'Dashboard', desc:'Live charts for occupancy, price trends, and yield metrics on sample data.', view:'dashboard'},
-  {name:'Property Data Input', desc:'Add, edit, and delete properties with full form validation.', view:'admin'},
-  {name:'AI-Based Valuation', desc:'Input form with a mocked valuation output, driven by smart logic.', view:'properties'},
-  {name:'Rental Pricing Intelligence', desc:'Recommended rent compared against a static market-average dataset.', view:'properties'},
-  {name:'ROI &amp; Investment Calculator', desc:'Fully functional — enter numbers, get ROI%, cash flow, and payback period.', view:'roi'},
-  {name:'Admin Panel', desc:'Full CRUD for properties, user management, and dashboard controls.', view:'admin'},
+  {name:'User Management', desc:'Sign in with role-based access for Admin and Viewer accounts.', view:null, img:'assets/modules/user-management.png'},
+  {name:'Dashboard', desc:'Live charts for occupancy, price trends, and yield metrics on sample data.', view:'dashboard', img:'assets/modules/dashboard.png'},
+  {name:'Property Data Input', desc:'Add, edit, and delete properties with full form validation.', view:'admin', img:'assets/modules/property-data-input.png'},
+  {name:'AI-Based Valuation', desc:'Input form with a mocked valuation output, driven by smart logic.', view:'properties', img:'assets/modules/ai-valuation.png'},
+  {name:'Rental Pricing Intelligence', desc:'Recommended rent compared against a static market-average dataset.', view:'properties', img:'assets/modules/rental-pricing.png'},
+  {name:'ROI &amp; Investment Calculator', desc:'Fully functional — enter numbers, get ROI%, cash flow, and payback period.', view:'roi', img:'assets/modules/roi-calculator.png'},
+  {name:'Admin Panel', desc:'Full CRUD for properties, user management, and dashboard controls.', view:'admin', img:'assets/modules/admin-panel.png'},
 ];
 function renderLandingModules(){
   const el = document.getElementById('moduleGrid');
   if(!el) return;
   el.innerHTML = landingModules.map(m => `
     <div class="mod-card" onclick="openModuleCard('${m.view}')">
+      <div class="mod-img-wrap"><img src="${m.img}" alt="${m.name.replace(/&amp;/g,'&')}" loading="lazy" class="mod-img"></div>
       <div class="pill pill-live">Live</div>
       <div class="modname">${m.name}</div>
       <div class="moddesc">${m.desc}</div>
