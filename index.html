@@ -1487,16 +1487,10 @@ function renderRoadmapAreaChart(){
 
 /* ---- Scroll-reveal + deferred chart loading ---- */
 function initScrollAnimations(){
-  const chartTriggers = {
-    moduleCoverageChart: renderModuleCoverageChart,
-    roadmapAreaChart: renderRoadmapAreaChart,
-  };
   if(!('IntersectionObserver' in window)){
-    // No IO support: just show everything and render charts immediately
+    // No IO support: just show everything
     document.querySelectorAll('.landing-hero, .section-head, .pie-card, .module-grid, .roadmap-grid, #how-it-works, .wave-cta-body')
       .forEach(el => el.classList.add('in-view'));
-    renderModuleCoverageChart();
-    renderRoadmapAreaChart();
     return;
   }
   const revealObserver = new IntersectionObserver((entries)=>{
@@ -1510,25 +1504,13 @@ function initScrollAnimations(){
 
   document.querySelectorAll('.landing-hero, .section-head, .pie-card, .module-grid, .roadmap-grid, #how-it-works, .wave-cta-body')
     .forEach(el => revealObserver.observe(el));
-
-  // Charts: render once their own pie-card scrolls into view, so the draw-in animation is actually seen
-  const chartObserver = new IntersectionObserver((entries)=>{
-    entries.forEach(entry=>{
-      if(entry.isIntersecting){
-        const canvas = entry.target.querySelector('canvas');
-        if(canvas && chartTriggers[canvas.id]){
-          chartTriggers[canvas.id]();
-          chartObserver.unobserve(entry.target);
-        }
-      }
-    });
-  }, {threshold:0.3});
-  document.querySelectorAll('#modules .pie-card, #roadmap-teaser .pie-card').forEach(el => chartObserver.observe(el));
 }
 
 renderLandingModules();
 renderRoadmapTeaser();
 initScrollAnimations();
+renderModuleCoverageChart();
+renderRoadmapAreaChart();
 renderDashboard();
 renderProperties();
 calcROI();
