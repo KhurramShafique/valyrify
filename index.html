@@ -72,6 +72,34 @@
   .landing-sub{color:var(--ink-dim); font-size:1.05rem; margin:18px 0 26px; line-height:1.6;}
 
   #modules, #roadmap-teaser{padding:72px 0;}
+
+  /* How It Works flow — recreated chevron-flow effect */
+  #how-it-works{padding:72px 0 56px;}
+  .flow-row{display:flex; align-items:flex-start; gap:8px; margin-top:8px;}
+  .flow-stage{flex:1; text-align:center; padding:0 10px;}
+  .flow-icon{
+    width:64px; height:64px; border-radius:50%; display:flex; align-items:center; justify-content:center;
+    margin:0 auto 16px; transition:transform .2s;
+  }
+  .flow-stage:hover .flow-icon{transform:scale(1.08);}
+  .flow-label{font-family:'Fraunces',serif; font-weight:600; font-size:1.05rem; color:var(--ink); margin-bottom:8px;}
+  .flow-desc{font-size:.86rem; color:var(--ink-dim); line-height:1.5; max-width:26ch; margin:0 auto;}
+  .flow-chevron{font-size:1.6rem; color:var(--brass); font-weight:700; padding-top:16px; flex-shrink:0; opacity:.7;}
+
+  /* Wave-topped CTA band — recreated wave-divider effect */
+  .wave-cta{position:relative; margin-top:8px;}
+  .wave-top{display:block; width:100%; height:44px;}
+  .wave-top path{fill:var(--dark);}
+  .wave-cta-body{background:var(--dark); padding:48px 0 64px;}
+  .wave-cta-inner{display:flex; justify-content:space-between; align-items:center; gap:28px; flex-wrap:wrap;}
+  .wave-cta-inner h2{font-family:'Fraunces',serif; font-weight:600; font-size:clamp(1.5rem,2.6vw,2rem); color:var(--cream); max-width:16ch;}
+  .wave-cta-inner p{color:var(--cream-dim); margin-top:10px; max-width:40ch;}
+
+  @media (max-width:700px){
+    .flow-row{flex-direction:column; align-items:center; gap:28px;}
+    .flow-chevron{transform:rotate(90deg); padding-top:0;}
+    .wave-cta-inner{flex-direction:column; align-items:flex-start; text-align:left;}
+  }
   .section-head{margin-bottom:40px; max-width:60ch;}
   .section-head h2{font-family:'Fraunces',serif; font-weight:600; font-size:clamp(1.6rem,2.8vw,2.1rem); margin-top:8px; color:var(--ink);}
   .section-head p{color:var(--ink-dim); margin-top:12px; font-size:.98rem;}
@@ -475,6 +503,54 @@
         </div>
       </div>
     </section>
+
+    <section id="how-it-works">
+      <div class="wrap">
+        <div class="section-head">
+          <div class="eyebrow">How It Works</div>
+          <h2>From raw data to an investment decision</h2>
+          <p>Three stages turn a property listing into a number you can act on.</p>
+        </div>
+        <div class="flow-row">
+          <div class="flow-stage">
+            <div class="flow-icon" style="background:rgba(201,162,39,0.12); color:var(--brass-deep);">
+              <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 9h18M8 4v16"/></svg>
+            </div>
+            <div class="flow-label">Property Data</div>
+            <div class="flow-desc">Price, size, location, and rent — entered or imported per listing.</div>
+          </div>
+          <div class="flow-chevron">›› </div>
+          <div class="flow-stage">
+            <div class="flow-icon" style="background:rgba(46,150,160,0.14); color:var(--teal-fill);">
+              <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="3"/><circle cx="12" cy="12" r="9"/><circle cx="12" cy="3" r="1.4" fill="currentColor" stroke="none"/><circle cx="20.2" cy="17" r="1.4" fill="currentColor" stroke="none"/><circle cx="3.8" cy="17" r="1.4" fill="currentColor" stroke="none"/></svg>
+            </div>
+            <div class="flow-label">AI Valuation Engine</div>
+            <div class="flow-desc">Smart-logic model estimates fair value and market rent (mocked in this demo).</div>
+          </div>
+          <div class="flow-chevron">›› </div>
+          <div class="flow-stage">
+            <div class="flow-icon" style="background:rgba(180,80,47,0.12); color:var(--rust);">
+              <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 19V10M12 19V5M20 19v-7"/><path d="M3 19h18"/></svg>
+            </div>
+            <div class="flow-label">Investment Insights</div>
+            <div class="flow-desc">ROI, cap rate, cash flow, and payback period — ready for a decision.</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <div class="wave-cta">
+      <svg class="wave-top" viewBox="0 0 1440 60" preserveAspectRatio="none"><path d="M0,38 C360,4 1080,58 1440,16 L1440,60 L0,60 Z"></path></svg>
+      <div class="wave-cta-body">
+        <div class="wrap wave-cta-inner">
+          <div>
+            <h2>See the product, not just the pitch.</h2>
+            <p>Every module above is live and interactive right now — sample data, real math, real UI.</p>
+          </div>
+          <button class="btn btn-primary" onclick="document.getElementById('loginOverlay').classList.add('show')">Login / Signup →</button>
+        </div>
+      </div>
+    </div>
   </section>
 
   <section class="view active" id="view-dashboard">
